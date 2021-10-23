@@ -1,0 +1,664 @@
+---
+title: "Tarea 1"
+output:
+  html_document:
+    df_print: paged
+---
+
+![](/home/tridimensional/u/dcc/octavo/estadistica/tareas/01/banner.png)
+
+<center> <h1>Tarea 1: Foundations</h1> </center>
+<center><strong>CC6104: Statistical Thinking</strong></center>
+#### **Integrantes :** 
+
+- Matías Seda
+
+#### **Cuerpo Docente:**
+
+- Profesor: Felipe Bravo M.
+- Auxiliar: Sebastian Bustos e Ignacio Meza D.
+            
+
+#### **Fecha límite de entrega:**
+
+### **Índice:**
+
+1. [Objetivo](#id1)
+2. [Instrucciones](#id2)
+3. [Referencias](#id3)
+2. [Primera Parte: Preguntas Teóricas](#id4)
+3. [Segunda Parte: Elaboración de Código](#id5)
+
+### **Objetivo**<a name="id1"></a>
+
+Bienvenid@s a la primera tarea del curso Statistical Thinking. Esta tarea tiene como objetivo evaluar los contenidos teóricos de la primera parte del curso, los cuales se enfocan principalmente en análisis exploratorio de datos y conceptos introductorios de probabilidades. Si aún no han visto las clases, se recomienda visitar los enlaces de las referencias.
+
+La tarea consta de una parte teórica que busca evaluar conceptos vistos en clases. Seguido por una parte práctica con el fín de introducirlos a la programación en R enfocada en el análisis estadístico de datos. 
+
+### **Instrucciones:**<a name="id2"></a>
+
+- La tarea se realiza en grupos de **máximo 2 personas**. Pero no existe problema si usted desea hacerla de forma individual.
+- La entrega es a través de u-cursos a más tardar el día estipulado en la misma plataforma. A las tareas atrasadas se les descontará un punto por día.
+- El formato de entrega es este mismo **Rmarkdown** y un **html** con la tarea desarrollada. Por favor compruebe que todas las celdas han sido ejecutadas en el archivo html.
+- Al momento de la revisión tu código será ejecutado. Por favor verifica que tu entrega no tenga errores de compilación.
+- No serán revisadas tareas desarrolladas en Python.
+- Está **PROHIBIDO** la copia o compartir las respuestas entre integrantes de diferentes grupos.
+- Pueden realizar consultas de la tarea a través de U-cursos y/o del canal de Discord del curso. 
+
+
+### **Referencias:**<a name="id3"></a>
+
+Slides de las clases:
+
+- [Introduction to Statistical Thinking](https://github.com/dccuchile/CC6104/blob/master/slides/1_1_ST-intro.pdf)
+- [Introduction to R](https://github.com/dccuchile/CC6104/blob/master/slides/1_2_ST-R.pdf)
+- [Descriptive Statistics](https://github.com/dccuchile/CC6104/blob/master/slides/1_3_ST-explore.pdf)
+- [Probability](https://github.com/dccuchile/CC6104/blob/master/slides/1_4_ST-prob.pdf)
+
+Videos de las clases:
+
+- Introduction to Statistical Thinking: [video1](https://youtu.be/X4SqJu6lExM) [video2](https://youtu.be/YbiQU5TTBX4)
+- Introduction to R: [video1](https://youtu.be/MbeLD3hWWVo) [video2](https://youtu.be/9W_eWCy86F4) [video3](https://youtu.be/QvFXSw2-1r4) [video4](https://youtu.be/y4JY7klrbfQ)
+- Descriptive Statistics: [video1](https://youtu.be/kWNskZ8_98o) [video2](https://youtu.be/_FJ8x9M4b1w) [video3](https://youtu.be/m7VBNZ2mYWI) [video4](https://youtu.be/ylGMJ_aSQk0)
+- Probability: [video1](https://youtu.be/R9AVYV73m1M) [video2](https://youtu.be/zubh1jbRiKE) [video3](https://youtu.be/uiwToagp0z4) [video4](https://youtu.be/RlhN3t_VIyw) [video5](https://youtu.be/4kV1dBaeWVc) [video6](https://youtu.be/MGyXc70JdSk)
+
+
+# Primera Parte: Preguntas Teóricas<a name="id4"></a>
+A continuación, se presentaran diferentes preguntas que abordan las temáticas vistas en clases. Por favor responda cada una de estas preguntas de forma breve, no más de 4 o 5 lineas.
+
+#### **Pregunta 1:**
+¿Por qué la estadística es importante?, ¿Que nos permite realizar con los datos?. De algún ejemplo.
+
+> La estadística es importante ya que permite describir fenómenos del mundo y usar *datos* para tomar de decisiones y hacer predicciones. Por ejemplo, dado el historial meteorológico de una zona y las condiciones atmosféricas actuales de dicha zona (datos), la estadística permite calcular la probabilidad que vaya a llover en dicha zona en las 24 proximas horas y estimar cuánto llovera. Con la información sobre las posibles precipitaciones, se pueden tomar decisiones como salir con paraguas o destapar canaletas para evitar inundaciones.
+
+#### **Pregunta 2:**
+Un amigue cercano a usted le comenta que le preocupa salir a la calle cuando hay ofertas en los helados, esto debido a que ha visto el siguiente titular en un famoso diario chileno: "El aumento en la compra de helados tiene una alta correlación con la muerte de personas en Santiago". ¿Que le recomendaría a su amigue sobre el titular leído?, ¿Debería preocuparse tanto?.
+
+> No le recomendaría preocuparse ya que *correlación no implica causalidad*, es decir, que dos fenómenos estén relacionados no significa que uno de esos fenómenos *provoque* que ocurra el otro. La correlación entre dos variables puede ocurrir por mera *coincidencia* y, en este caso, a priori pareciese que no existe ninguna causalidad entre los dos fenómenos mencionados.
+
+#### **Pregunta 3:**
+Señale las diferentes aplicaciones que poseen las visualizaciones: Boxplot, histograma, gráfico de pie y scatterplot.
+
+> - Boxplot: Permite mostrar información sobre la distribución de los datos. En particular, un boxplot entrega información sobre la mediana, los cuartiles y outliers de los datos..
+  - Histograma: Permite mostrar la distribución de los valores de una variable, es decir, permite observar la *cantidad* de datos para distintos rangos de valores de la variable.
+  - Gráfico de pie: Permite mostrar la frequencia de cada elemento en un círculo divido en *pedazos*.
+  - Scatterplot: Permite mostrar como se relacionen distintas variables mediante un gráfico cartesiano. En general, los scatterplots muestran relaciones entre dos variable (gráficos cartesianos 2d) o relaciones entre tres variables (gráficos cartesianos 3d).
+
+#### **Pregunta 4:**
+Suponga que esta estudiando la diferencia en los sueldos de las personas que viven en Santiago y Rancagua. Suponiendo que los datos poseen outliers, ¿Que métrica de resumen utilizaría para comparar los datos?. Justifique su respuesta.
+
+> Un primer acercamiento para comparar los datos sería comparar las medianas de sueldos de ambas ciudades. La mediana permite afirmar que un 50% de santiaguinos gana menos de $x$ pesos y que un 50% de rancaguinos gana un $y$. Los outliers no afectan tanto la mediana (a diferencia del promedio que se ve más afectado por outliers), por tanto, permite obtener un buen primer acercamiento a los datos. Si se quisiese ahondar en la comparación de los datos, visualizar la información en boxplots para cada región permitiría observar parte de la distribución de los datos y obtener mejores resultados de comparación.
+
+#### **Pregunta 5:**
+En base al mismo dataset de sueldos para las regiones de Santiago y Rancagua, le comentan que existe un error en los datos y que estos deben ser modificados aumentando un 10% el valor original y sumando $15.000$ a cada uno de los datos. ¿Como se ve afectada la media, mediana y desviación estándar con esta modificación?. Explique a través de ecuaciones el cambio que experimentan las métricas de resumen respecto al valor original, considere para el caso de la media $\bar{X}_{old} = \dfrac{1}{m} \sum^{m}_{i=1} x_i$ y $sd_{old} = \sqrt{\dfrac{1}{(m-1)}\sum_{i=1}^{m}(x_i-\bar{x})^{2}}$ para la desviación estándar.
+
+> - **Media:** La nueva media viene dada por: 
+     \[ \bar{x}_{new} = \dfrac{1}{m} \sum^{m}_{i=1} 1.1 \cdot x_i + 15000 \]
+     Desarrollando la expresión se tiene que:
+     \[ \bar{x}_{new} = \dfrac{1}{m} \left( \sum^{m}_{i=1} 1.1 \cdot x_i + \sum^{m}_{i=1}15000 \right)\]
+     \[ \bar{x}_{new} = 1.1 \cdot \dfrac{1}{m} \sum^{m}_{i=1} x_i + \frac{1}{m} \cdot 15000 \sum^{m}_{i=1}1 \]
+     \[ \bar{x}_{new} = 1.1 \cdot \bar{x}_{old} + 15000 \]
+     Por tanto, se tiene que la nueva media se ve aumentada un 10% su valor original más $15.000$, al igual que todos los datos. 
+  - **Mediana:** Nótese que para calcular la mediana se necesitan ordenar los datos de mayor a menor. Por tanto, si todos los datos son aumentados un 10% de su valor original más $15.000$, el orden de los datos no cambia y, en particular, la nueva mediana es un 10% de su valor original más $15000$.
+  En caso de que la mediana se calcule como el promedio de los dos datos más al *medio*, se tiene que el resultado también se ve aumentado un 10% de su valor original más $15.000$ (nótese que en la sección anterior *Media* se demostró dicho resultado).
+  - **Desviación estándar:** La nueva desviación estándar es:
+  \[ sd_{new} = \sqrt{\dfrac{1}{(m-1)}\sum_{i=1}^{m}(1.1 \cdot x_i + 15000 -\bar{x}_new)^{2}} \]
+  Desarrollando la expresión se tiene que:
+  \[ sd_{new} = \sqrt{\dfrac{1}{(m-1)}\sum_{i=1}^{m}(1.1 \cdot x_i + 15000 - (1.1 \cdot \bar{x}_{old} + 15000  ))^{2}} \]
+  \[ sd_{new} = \sqrt{\dfrac{1}{(m-1)}\sum_{i=1}^{m}(1.1 \cdot x_i - 1.1 \cdot \bar{x}_{old})^{2}} \]
+  \[ sd_{new} = \sqrt{\dfrac{1}{(m-1)}\sum_{i=1}^{m}1.1^{2} \cdot (x_i - \bar{x}_{old})^{2}} \]
+  \[ sd_{new} = 1.1 \cdot \sqrt{\dfrac{1}{(m-1)}\sum_{i=1}^{m}(x_i - \bar{x}_{old})^{2}} \]
+  \[ sd_{new} = 1.1 \cdot sd_{old} \]
+     Por tanto, se tiene que la nueva desviación estándar se ve aumentada solamente un 10% su valor original y los 15000 no afectan en la nueva desviación estándar. 
+
+#### **Pregunta 6:**
+Suponga que debe responder un examen sorpresa de 10 preguntas, con 5 alternativas por cada pregunta. ¿Cual es la probabilidad de obtener mas de 5 alternativas correctas si responde de forma aleatoria todo el examen?.
+
+**Nota:** Puede resolver el ejercicio desarrollándolo a mano o utilizando código en R. 
+
+> Sea $X$ la v.a que cuenta las respuestas correctas del examen respondido de forma aleatoria. En particular, se quiere calcular la probabilidad $P(X>5)$. Dicha probabilidad viene definida por:
+\[ P(X>5) = P(X=6) + P(X=7) + P(X=8) + P(X=9) + P(X=10) \] 
+Por el otro lado, la probabilidad $P(X=x)$, es decir la probabilidad de tener $x$ respuestas correctas, viene definida por:
+\[ P(X=x) = \binom{10}{x}0.2^{x}0.8^{10-x} \]
+Por tanto, la probabilidad $P(X>5)$, es decir, la probabilidad de contestar mas de 5 alternativas correctas viene dada por la siguiente expresion:
+\[ P(X>5) = \sum_{i=6}^{10}\binom{10}{i}0.2^{i}0.8^{10-i} \]
+Calculando dicha probabilidad, se tiene que dicha probabilidad es :
+\[ P(X>5) = 0.6369% \]
+
+#### **Pregunta 7:**
+Supongamos que el 10% de los alumnos del curso utilizan Macintosh, el 60% utiliza Windows y el 30% utiliza Linux. Supongamos que el 50% de los usuarios de Mac, el 78% de los usuarios de Windows y el 20% de los usuarios de Linux han sucumbido bajo un terrible virus. Al seleccionar una persona al azar nos enteramos de que su sistema está infectado por el virus. ¿Cuál es la probabilidad de que sea un alumno con Windows?.
+
+> Se quiere calcular la probabilidad de escoger un alumno que utiliza Windows dado que se sabe que su sistema está infectado por el virus, es decir, se quiere calcular la probabilidad $P(W | V)$, donde $W=Windows$ y $V= Virus$. Por Bayes, se tiene que dicha probabilidad viene dada por:
+\[P(W | V) = \frac{ P(V | W ) \cdot P(W) }{ P(V) } \]
+Donde la probalidad $P(V|W)$ es la probabilidad de escoger un alumno con su sistema infectado por el virus dado que utiliza Windows. Dicha probabilidad es conocida y es del 78%. Por el otro lado, la probabilidad $P(W)$ es la probabilidad que un alumno utilice Windows. Dicha probabilidad también es conocida y es del 60%. Finalmente, $P(V)$ es la probabilidad de escoger un alumno que tenga su sistema infectado por el virus. Dicha probabilidad no es conocida pero puede ser expresada mediante el teorema de la probabilidad total como:
+\[P(V) = \sum_{i=1}^{k} P(V, Y_{i}) = P(V | Y_{i}) \cdot P(Y_{i}) \]
+Donde el conjuto $\{Y_{1}, Y_{2}, ..., Y_{k}\}$ es un conjunto de eventos mutuamente excluyentes en el espacio muestral. En este caso dicho conjunto es $\{W, M, L\}$ donde $W=Windows$, $M=Macintosh$ y $L=Linux$. Así, se tiene que:
+\[ P(V) = P(V | W) \cdot P(W) +  P(V | M) \cdot P(M) +  P(V | L) \cdot P(L) \] 
+Por enunciado, se sabe que $P(V | W)=0.78$, $P(W)=0.60$, $P(V | M)=0.50$, $P(M)=0.10$, $P(V | L)=0.20$ y $P(W)=0.30$. En consecuencia, se tiene que:
+\[ P(V) = 0.78 \cdot 0.60 + 0.50 \cdot 0.10 + 0.20 \cdot 0.30 \]
+\[ P(V) = 0.578  \]
+Asi, finalmente, se tiene que la probabilidad $P(W | V)$ viene dada por:
+\[P(W | V) = \frac{ 0.78 \cdot 0.60 }{ 0.57 } \]
+\[P(W | V) = 0.81  \]
+Por tanto, al seleccionar una persona al azar y encontrar que dicho alumno tiene el virus en su sistema, la probabilidad de que dicho alumnos utilice Windows es del 81%. 
+
+#### **Pregunta 8:**
+Señale si las siguientes declaraciones son verdaderas o falsas respecto a las variables aleatorias:
+
+- [ ] Como las variables aleatorias son funciones que nos permiten obtener valores de probabilidad, siempre podemos obtener $\mathbb{P}(X=x)>0$ evaluando en una $f(x)$ continua y discreta.
+- [ ] Una PDF bien definida solo puede tener valores menores a 1 y un área debajo de la curva igual a 1.
+- [ ] La CDF puede ser representada como la integral de la PDF y PMF.
+- [ ] Una CDF es definida para todo x, continua hacia la derecha y no es decreciente.
+
+> - **Falso:** Para una variable aleatoria $X$ continua, se tiene que para todo $x$, $P(X=x)=0$. En el caso continuo las probabilidades se calculan para rangos de valores y no para valores específicos.
+  - **Falso** Una PDF si puede tomar valores iguales o mayores a 1. Lo importante es que el área total debajo de la curva sea igual a 1.
+  - **Falso:** Solo para el caso continuo la CDF puede ser representada como la integral de la PDF. En el caso discreto, la CDF es representada como la sumatoria de la PMF.
+  - **Verdadero**
+
+#### **Pregunta 9:**
+Una famosa fabrica de dulces señala que solo el $5\%$ de sus dulces contienen menos de $350$ gramos. Si los dulces elaborados por la fabrica distribuyen de forma normal, con media $\mu$ y desviación estándar $11.2$. Responda las siguientes preguntas:
+
+- a) Encuentre la media del producto.
+- b) Señale el porcentaje de dulces que se encuentran sobre los $390$ gramos.
+
+**Nota:** Puede ser útil https://www.statskingdom.com/z_table.html
+
+> a)
+Se tiene que: 
+\[P(x < 350) = 0.05 \]
+Por tanto, se tiene que:
+\[P(z < \frac{350- \mu}{\sigma}) = 0.05\]
+Revisando la `z table` se tiene que el $z$ asociado a dicha probabilidad (0.05) es -2.58. En consecuencia se tiene que:
+\[ \frac{350- \mu}{\sigma} = -2.58 \]
+Recordando que $\sigma = 11.2$, se tiene que:
+\[ \frac{350- \mu}{11.2} = -2.58 \]
+Resolviendo la ecuación se tiene que:
+\[ \mu = 378.38 \]
+Es decir, la media del producto es 378.38
+b) Se quiere conocer la siguiente probabilidad $p$:
+\[P(x > 390) = p \]
+Por tanto, se tiene que:
+\[P(z > \frac{390 - 378.38}{11.2}) = p\]
+\[P(z > 1.0375) = p\]
+Revisando la `z table` se tiene que la probabilidad $p$ asociado a $z=1.0375$ es 0.14197.
+Es decir, un 14.197 % de los dulces se encuentra sobre lo 390 gramos
+---
+
+# Segunda Parte: Elaboración de Código<a name="id5"></a>
+
+En la siguiente sección deberá resolver cada uno de los experimentos computacionales a través de la programación en R. Para esto se le aconseja que cree funciones en R, ya que le facilitará la ejecución de gran parte de lo solicitado.
+
+### Pregunta 1: Visualización de Datos
+
+Para esta pregunta usted deberá trabajar en base al conjunto de datos `hearth_database.csv`, el cual esta compuesto por las siguientes variables:
+
+- target: Señala si el paciente tuvo un infarto.
+- sex: Sexo de los sujetos de prueba.
+- fbs: Azúcar en la sangre con ayunas. Esta variable señala solo si se encuentra <=120 o >120.
+- exang: Angina de pecho inducida por el ejercicio.
+- cp: Tipo de dolor de pecho.
+- restecg: Resultados electrocardiográficos en reposo.
+- slope: Pendiente del segmento ST máximo de ejercicio.
+- ca: Número de buques principales.
+- thal: Thalassemia.
+- age: Edad en años.
+- trestbps: Presión arterial en reposo.
+- chol: colesterol sérico en mg/dl.
+- thalach: Frecuencia cardíaca máxima alcanzada.
+- oldpeak: Depresión del ST inducida por el ejercicio en relación con el reposo.
+
+En base al dataset propuesto realice un análisis exploratorio de los datos (EDA). Para su análisis enfoquen el desarrollo en las siguientes tareas:
+
+- [ ] Obtenga la media, mediana, quintiles y valores máximos desde los datos que componen el dataset.
+- [ ] Obtenga la Matriz de correlación de Pearson y visualice la relación entre las variables numéricas.
+- [ ] Visualice los boxplot para las variables numéricas.
+- [ ] Visualice a través de un histograma como distribuyen las variables respecto a los TARGET.
+
+**Respuesta**
+
+Inicialmente, se cargan los datos.
+```{r}
+my_data <- read.table(file="hearth_database.csv", header=T, sep=",")
+```
+
+Para conocer la media, mediana, quintiles y valores máximos de las variables numéricas, la función `summary` permite obtener dicha información
+```{r}
+summary(my_data)
+```
+
+Para obtener la Matriz de correlación de Pearson, la siguiente línea de código permite obtener dicha información.
+```{r}
+my_data_num <- my_data[sapply(my_data, is.numeric)]
+cor(my_data_num)
+```
+
+Ahora, para visualizar las correlaciones entre las variables numéricas, la siguiente línea de código permite visualizar dichas correlaciones.
+```{r}
+pairs(my_data_num)
+
+```
+
+Para los boxplots de las variables numéricas, la siguiente línea de código permite visualizar los boxplots.
+```{r}
+boxplot(my_data_num)
+```
+
+Para los histograma de las variables numéricas respecto a la variable target, las siguientes líneas de código permite visualizar dichos histogramas
+```{r}
+my_data_y <- my_data[my_data$target %in% c("YES"),]
+my_data_n <- my_data[my_data$target %in% c("NO"),]
+
+my_data_y_num <- my_data_y[sapply(my_data_y, is.numeric)]
+my_data_n_num <- my_data_n[sapply(my_data_n, is.numeric)]
+
+library(ggplot2)
+library(tidyr)
+ggplot(gather(my_data_y_num, cols, value), aes(x = value)) + 
+       geom_histogram(binwidth = 10) + facet_grid(.~cols) + ggtitle("Histrograma variables númericas cuando target='YES'")
+
+ggplot(gather(my_data_n_num, cols, value), aes(x = value,)) + 
+       geom_histogram(binwidth = 10) + facet_grid(.~cols) + ggtitle("Histrograma variables númericas cuando target='NO'")
+```
+
+
+### Pregunta 2: Teorema Central del Limite
+
+Pruebe el teorema central del limite aplicando un muestreo de la media en las distribuciones Poisson, Exponencial y una a su elección. Grafique los resultados obtenidos y señale aproximadamente el numero de muestreos necesarios para obtener el resultado esperado, pruebe esto con las siguientes cantidades de muestreo $\{10,100,1000,5000\}$. ¿El efecto ocurre con el mismo número de muestreo para todas las distribuciones?.
+
+**Respuesta**
+
+La siguientes funciones permitirán probar el teorema central del límite de manera visual. En particular, la función `hist_and_norm` toma un número `n` que representa un número de muestras y una función `distri` que retorna un vector de 1000 números generados por alguna distribución asociada a la función `distri`. De esa forma, la función `hist_and_norm` plotea el histrograma de `n` con una curva normal ajustada al histograma. La funciones `distri` disponibles son `my_poisson`, `my_poisson` y `my_poisson`.
+```{r}
+hist_and_norm <- function(n, distri){
+  # Se genera el vector de tamaño n con medias de tamaño 1000
+  means <- c()
+  for (i in 1:n){
+    means = append(means, mean(distri()))
+  }
+  
+  # Se crea el histograma de medias
+  h = hist(means,
+           plot=FALSE, 
+           )
+  
+  # distribución normal 
+  xfit <- seq(min(means)-0.1, max(means)+0.1, length=1000)
+  yfit <- dnorm(xfit, mean = mean(means), sd=sd(means))
+  yfit <- yfit * diff(h$mids[1:2]) * (length(means))
+  
+  # Se plotea el histograma
+  plot(h,
+       # freq=FALSE, 
+       main=paste("Histograma de ", n, " medias de tamaño 1000"),
+       xlab="Valor media",
+       ylab="Densidad",
+       ylim=c(0,max(yfit, h$counts)),
+       col="gray"
+  )
+  
+  # Se plotea la distribución normal 
+  lines(xfit, yfit, lwd=2)
+}
+
+my_poisson <- function(){
+  return(rpois(1000, 1))
+}
+my_exp <- function(){
+  return(rexp(1000, 1))
+}
+my_chi <- function(){
+  return(rchisq(1000, 1))
+}
+
+my_plots <- function(distri){
+  muestras <- c(10, 100, 1000, 5000)
+  for (i in muestras){
+    hist_and_norm(i, distri)
+  }
+}
+
+```
+
+Poisson 
+```{r}
+my_plots(my_poisson)
+```
+
+Exponencial
+```{r}
+muestras <- c(10, 100, 1000, 5000)
+for(i in muestras){
+  hist_and_norm(i, my_exp)
+}
+```
+
+Chi-square
+```{r}
+muestras <- c(10, 100, 1000, 5000)
+for(i in muestras){
+  hist_and_norm(i, my_chi)
+}
+```
+
+Notése que en todas las distribuciones, mientras mayor es `n`, el histrograma es más similar a una distribución normal y, por tanto, de manera visual se puede comprobar el teorema central del límite.
+
+### Pregunta 3: Ley de los Grandes Numeros.
+
+#### Lanzamiento de monedas
+Realice el experimento de lanzar una moneda cargada 1000 veces y observe el comportamiento que tiene la probabilidad de salir cara. Para realizar el experimento considere que la moneda tiene una probabilidad de $4/5$ de salir cara. Grafique el experimento para las secuencias de intentos que van desde 1 a 1000, señalando el valor en que converge la probabilidad de salir cara.
+
+**Respuesta**
+
+```{r}
+n <- 1000
+y <- c()
+x <- 1:n
+prob <- 0
+for(i in x){
+  lanzamiento <- sample.int(5,1)
+  if (lanzamiento < 5){
+    prob <- (prob + 1)
+  }
+  y <- append(y, prob/i)
+}
+plot(x,
+     y,
+     type = "l", 
+     main="Convergencia de probabilidad de obtener cara al lanzar una \n moneda cargada con una probabilidad 0.8 de obtener cara", 
+     xlab="Número de lanzamientos", 
+     ylab="Probabildiad",
+     ylim=c(0,1),
+     lwd = 1.5
+     )
+lines(x, 
+      rep(0.8, n), 
+      type="l", 
+      col="red", 
+      lwd = 1.5
+      )
+```
+
+
+#### El problema de Monty Hall 
+
+Remontándonos en la televisión del año 1963, en USA existía un programa de concursos donde los participantes debían escoger entre 3 puertas para ganar un premio soñado. El problema del concurso era que solo detrás de 1 puerta estaba el premio mayor, mientras que detrás de las otras dos habían cabras como "premio". 
+
+Una de las particularidades de este concurso, es que cuando el participante escogía una puerta, el animador del show abría una de las puertas que no fue escogida por el participante (Obviamente la puerta abierta por el animador no contenía el premio). Tras abrir la puerta, el animador consultaba al participante si su elección era definitiva, o si deseaba cambiar la puerta escogida por la otra puerta cerrada.
+
+Imagine que usted es participante del concurso y desea calcular la probabilidad de ganar el gran premio **si cambia de puerta** en el momento que el animador se lo ofrece. Utilizando listas/arrays/vectores simule las puertas del concurso, dejando aleatoriamente el premio en alguna posición del array. Hecho esto, genere un numero de forma aleatoria para escoger una de las puerta (posiciones de la estructura), para luego ver si cambiando de posición tendrá mayores posibilidades de ganar el premio. Genere N veces el experimento y grafique cada una de las iteraciones, tal como se hizo en el ejercicio de las monedas.
+
+<p align="center">
+  <img src="https://brilliant-staff-media.s3-us-west-2.amazonaws.com/tiffany-wang/gWotbuEdYC.png" width="350">
+</p>
+
+
+**Respuesta:**
+
+```{r}
+# Creamos una función que simule el juego
+montyhall <- function(cambiar_puerta = TRUE){
+  puertas <- c(1,2,3)
+  
+  # Se escoge la puerta del premio
+  premio <- sample(1:3, 1)
+  # El juegador escoge su puerta
+  eleccion <- sample(1:3, 1)
+  
+  # Se escoge la puerta a eliminar  
+  # (no puede ser la puerta ganadora ni la puerta del jugador)
+  puertas[premio] <- 0
+  puertas[eleccion] <- 0
+  vacia <- max(puertas)
+  
+  # se reestablecen la puerta ganadora y la puerta del jugador
+  puertas[premio] <- premio
+  puertas[eleccion] <- eleccion
+  
+  # se elimina la puerta que no contiene el premio
+  puertas[vacia] <-0 
+  
+  if(cambiar_puerta==TRUE){
+    puertas[eleccion] <-0
+  }
+  else{
+    puertas[puertas!=eleccion]<-0
+  }
+  return(sum(puertas)==premio)
+}
+# Función que simula N juegos 
+n_juegos <- function(n = 10 , cambiar_puerta = TRUE){
+  x <- 1:n 
+  y <- c()
+  prob <- 0
+  for(i in 1:n){
+    bool = montyhall(cambiar_puerta)
+    
+    if(bool){
+      prob = prob + 1
+    }
+    y <- append(y, prob/i)
+  }
+  return(y)
+}
+# Función que compara n juegos cambiando la puerta versus 
+# n juegos sin cambiar la puerta 
+compare <- function(n=1000){
+  x <- 1:n
+  y_cambiar <- n_juegos(n)
+  y_no_cambiar <- n_juegos(n, cambiar_puerta = FALSE)
+
+  plot(x,
+     y_cambiar,
+     type = "l", 
+     main="Convergencia de probabilidad de ganar Monty hall cuando se \n cambia la puerta versus cuando no se cambia la puerta", 
+     xlab="Número de juegos", 
+     ylab="Probabildiad",
+     ylim=c(0,1),
+     lwd = 1.5
+     )
+  
+  # 
+  lines(x, 
+        y_no_cambiar, 
+        type="l", 
+        col="red",
+        lwd = 1.5)
+  
+  legend(x="topright", 
+         legend=c("Cambiar puerta", "No cambiar puerta"),
+         lty=c(1,1),
+         col=c("black", "red"),
+         lwd = 3
+         
+         )
+}
+compare()
+
+```
+
+Nótese que, de manera visual, se puede comprobar que la probabilidad de ganar al cambiar la puerta tiende a, aproximadamente, 66.6 % y la probabilidad de ganar al mantener la puerta tiende a, aproximadamente, 33.3 %. Por tanto, siempre es más óptimo cambiar de puerta.
+
+---
+
+### Pregunta 4: ¿Independencia?
+Ustedes disponen de los dados D1 y D2, los cuales no están cargados y son utilizados para comprobar que $\mathbb{P}(AB)=\mathbb{P}(A)\mathbb{P}(B)$ cuando el evento A es independiente del B. Para estudiar la independencia considere que los eventos A y B se definen de la siguiente manera; sea A el evento dado por los valores obtenidos en el lanzamiento del dado D1, este está compuesto por $A=\{D1=1,D1=2,D1=6\}$. Por otro lado, el evento B viene dado por los valores obtenidos con el dado D2, el que está conformado por $B=\{D2=1,D2=2,D2=3,D2=4\}$. Con esto, tendremos un $\mathbb{P}(A)=1/2$, $\mathbb{P}(𝐵)=2/3$ y $\mathbb{P}(AB)=1/3$. Compruebe de forma gráfica que al realizar 1000 lanzamientos (u otro valor grande que usted desea probar) se visualiza que $\mathbb{P}(AB)=\mathbb{P}(A)\mathbb{P}(B)$. 
+
+Hecho lo anterior, compruebe el comportamiento de un segundo grupo de eventos, dados por el lanzamiento de solo el dado D1. Donde, los eventos para D1 quedan definidos como: $A =\{D1=1,D1=2,D1=6\}$ y $B=\{D1=1,D1=2,D1=3\}$. ¿Se observa independencia en este experimento?.
+
+Se le aconseja que para simular los lanzamientos de dados utilice la función `sample()` para generar valores aleatorios entre 1 y 6. Compruebe los números generados por la función con los casos favorables de cada uno de los eventos a ser estudiados.
+
+**Respuesta:**
+
+```{r}
+
+A_B_vs_AB <- function(n, L_A, L_B, L_AB){
+  y_A_B <- c()
+  y_AB <- c()
+  prob_A <- 0
+  prob_B <- 0
+  prob_AB <- 0
+  
+  for (i in 1:n){
+    d1 = sample(1:6, 1)
+    d2 = sample(1:6, 1)
+    d3 = sample(1:6, 1)
+    
+    
+    if(is.element(d1, L_A)){
+      prob_A = prob_A + 1
+    }
+    
+    if(is.element(d2, L_B)){
+      prob_B = prob_B + 1
+    }
+    if (is.element(d3, L_AB)){
+      prob_AB = prob_AB + 1
+      
+    }
+    y_A_B = append(y_A_B, ((prob_A/i)*(prob_B/i)))
+    y_AB = append(y_AB, prob_AB/i)
+  }
+  
+  plot(1:n,
+       y_AB,
+       type = "l", 
+       main="Convergencia de probabilidad P(A,B) versus convergencia \n de probabilidad P(A)*P(B)", 
+       xlab="Número de lanzamientos", 
+       ylab="Probabildiad",
+       ylim=c(0,1),
+       lwd = 1.5
+       )
+    
+    # 
+    lines(1:n, 
+          y_A_B, 
+          type="l", 
+          col="red",
+          lwd = 1.5)
+    
+    legend(x="topright", 
+           legend=c("P(A,B)", "P(A)*P(B)"),
+           lty=c(1,1),
+           col=c("black", "red"),
+           lwd = 3
+    )
+}
+
+# Primer grupo de eventos
+N_lan = 5000 # Numero de lanzamientos
+  
+L_A = c(1,2,6) # Lanzamientos favorables A = c(1, 2, 6)
+L_B = c(1,2,3,4) # Lanzamientos favorables B = c(1, 2, 3, 4)
+L_AB = c(1,2) # Lanzamientos favorables AB = c(1, 2)
+
+A_B_vs_AB(N_lan, L_A, L_B, L_AB)
+
+
+```
+
+Nótese que, visualmente, se puede comprobar que: $\mathbb{P}(AB)=\mathbb{P}(A)\mathbb{P}(B)$. 
+```{r}
+# Segundo grupo de eventos
+N_lan = 5000 # Numero de lanzamientos
+  
+L_A =  c(1, 2, 6)# Lanzamientos favorables A = c(1, 2, 6)
+L_B =  c(1, 2, 3) # Lanzamientos favorables B = c(1, 2, 3)
+L_AB = c(1, 2) # Lanzamientos favorables AB = c(1, 2)
+  
+A_B_vs_AB(N_lan, L_A, L_B, L_AB)
+```
+
+En este caso, se puede visualizar que no se cumple que: $\mathbb{P}(AB)=\mathbb{P}(A)\mathbb{P}(B)$. Dicha igualdad no se cumple ya que, en este caso, los eventos $A$ y $B$ no son independiente entre sí (porque ambos eventos dependen del mismo dado) y, por tanto, la igualdad no es válida.
+
+---
+### Pregunta 5: La Ruina del Jugador
+Un amigo ludópata suyo le comenta que el truco de jugar en el casino esta en no parar de apostar y apostando lo mínimo posible. Ya que así, tienes mas probabilidades de ganar el gran pozo que acumula el juego. Usted sabiendo la condición de su amigo, decide no creer en su conjetura y decide probar esto a través de un experimento.
+
+Para realizar el experimento usted decide asumir las siguientes declaraciones, bajo sus observaciones:
+
+- La probabilidad de ganar en un juego del casino es $9/19$
+- Sabe que su amigo posee fondos en el rango de 0 a 200 dolares.
+- Las apuestas como mínimo deben ser igual a 5 dolares.
+- El monto de las apuestas no cambia y son siempre igual a la primera. Por ejemplo, si su amigo apuesta 50 dolares, todos los próximos juegos apuesta 50 hasta que se acaba su dinero.
+- Asuma que al momento de ganar el jugador anexa el valor apostado a sus fondos.
+
+En el experimento deberá obtener la evolución de los fondos hasta que el jugador se queda sin fondos para jugar. Puede ser útil seguir la lógica de una moneda cargada para realizar esto. Pruebe esto con una apuesta igual a 5, 25 y 50 graficando los resultados. Comente los resultados obtenidos.
+
+**Respuesta**
+
+```{r}
+# Función para obtener el desarrollo de las apuestas
+ruina <- function(fondos = 100, apuesta = 5){
+  
+  i <- 0
+  y <- c(fondos)
+  while (0<fondos & fondos<200) {
+    if(sample(1:19,1)< 10){
+      fondos <- fondos + apuesta
+    }
+    else{
+      fondos <- fondos - apuesta
+    }
+    y <- append(y, fondos)
+  }
+  return(y) # Devuelve un vector con el desarrollo de los fondos
+}
+
+ruina_real <- function(fondos = 100, apuesta = 5){
+  
+  i <- 0
+  y <- c(fondos)
+  while (0<fondos) {
+    if(sample(1:19,1)< 10){
+      fondos <- fondos + apuesta
+    }
+    else{
+      fondos <- fondos - apuesta
+    }
+    y <- append(y, fondos)
+  }
+  return(y) # Devuelve un vector con el desarrollo de los fondos
+}
+
+plot(ruina(), type="l", col="blue", xlab="N° de juegos", ylab="Fondos", main="Evolución de los fondos (apuesta = 5)")
+plot(ruina(apuesta = 25), type="l", col="blue", xlab="N° de juegos", ylab="Fondos", main="Evolución de los fondos (apuesta = 25)")
+plot(ruina(apuesta = 50), type="l", col="blue", xlab="N° de juegos", ylab="Fondos", main="Evolución de los fondos (apuesta = 50)")
+```
+
+Nótese que, en la función `ruina`, si el jugador llega a obtener 200, el juego termina y, en ese sentido, el jugador puedes *ganar*. Para simular una ruina real, la función `ruina_real` termina cuando el jugador se queda sin fondos.
+```{r}
+plot(ruina_real(), type="l", col="blue", xlab="N° de juegos", ylab="Fondos", main="Evolución de los fondos (apuesta = 5)")
+plot(ruina_real(apuesta = 25), type="l", col="blue", xlab="N° de juegos", ylab="Fondos", main="Evolución de los fondos (apuesta = 25)")
+plot(ruina_real(apuesta = 50), type="l", col="blue", xlab="N° de juegos", ylab="Fondos", main="Evolución de los fondos (apuesta = 50)")
+```
+
+En ese sentido, si el jugador siempre apostara, siempre terminaría perdiendo ya que el monto obtenido al ganar es el mismo monto que el monto de perder y la probabilidad de perder $1 - \frac{9}{19} = \frac{10}{19}$ es mayor que la probabilidad de ganar $\frac{9}{19}$. 
+
+Mas formalmente, si $X$ es una variable aleatoria que representa el dinero ganado en una apuesta de valor $n$, se tiene que la esperanza de $X$ viene dada por:
+
+\[ E[X ] = \frac{9}{19} \cdot n + \frac{10}{19}\cdot -n = \frac{-n}{19} \]
+
+Por tanto, se *espera* que el jugador gane$\frac{-n}{19}$ en cada apuesta, es decir, en promedio, el jugador pierde $\frac{n}{19}$ en cada apuesta.
+
+Como se *espera* que el jugador pierda en cada apuesta, en algún momento, el jugador de quedará sin fondos. Más en particular, si el jugador comienza el juego con un fondo de valor $N$, se espera que el jugador se quede sin fondos en $t$ apuestas, donde $t$ se define de la siguiente forma:
+
+\[N + \frac{-n}{19} \cdot t = 0 \]
+\[ t = \frac{19N}{n} \]
+
+Por tanto, se *espera* que en $\frac{19N}{n}$ apuestas el jugador se quede sin fondos.
+```{r}
+plot(ruina_real(apuesta = 0.1), type="l", col="blue", xlab="N° de juegos", ylab="Fondos", main="Evolución de los fondos (apuesta = 0.1)")
+```
+&nbsp;
+<hr />
+<p style="text-align: center;">A work by <a href="https://github.com/dccuchile/CC6104">CC6104</a></p>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="https://github.com/dccuchile/CC6104"><i class="fab fa-github" style='font-size:30px'></i></a>
+</p>
+
+&nbsp;
