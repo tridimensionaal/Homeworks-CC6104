@@ -82,7 +82,7 @@ $$\hat{N°\_de\_fanaticos\_del\_anime}=300+90*numero\_de\_semestres$$
 
 ¿Como podemos interpretar el intercepto y pendiente del modelo?, ¿El intercepto y la pendiente tienen una interpretación coherente para cualquier modelo lineal?, si no es así, de un ejemplo.
 
-> HOLAAAAAAAAAAAAAAAAA
+> El modelo lineal nos dice que a medida que avanzan los semestres la cantidad de fanáticos va aumentando según esa regla. En este caso el intercepto es igual a 300, por lo que cuando las personas ingresan a la universidad y han pasado 0 semestres, el número de fanáticos de animé es igual a 300. Por otro lado, la pendiente nos dice la tasa a la cual ocurre el aumento de fanáticos de animé en cada semestre, es decir, luego del primer semestre la cantidad de fanáticos de animé será de 300 + 90*1= 390, luego del segundo semestre habrán 300 + 90*2 = 480, de esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán 300 + 90*12 = 1.380 fanáticos del animé.
 
 #### **Pregunta 3:**
 Considere un test con dos muestras *no* aparejado, explique porque se hace una corrección a los grados de libertad en el test de Welsh.
