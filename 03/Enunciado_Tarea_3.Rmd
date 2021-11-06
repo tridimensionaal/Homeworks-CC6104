@@ -84,6 +84,7 @@ $$\hat{N°\_de\_fanaticos\_del\_anime}=300+90*numero\_de\_semestres$$
 
 > El modelo lineal nos dice que a medida que avanzan los semestres la cantidad de fanáticos va aumentando según esa regla. En este caso el intercepto es igual a 300, por lo que cuando las personas ingresan a la universidad y han pasado 0 semestres, el número de fanáticos de animé es igual a 300. Por otro lado, la pendiente nos dice la tasa a la cual ocurre el aumento de fanáticos de animé en cada semestre, es decir, luego del primer semestre la cantidad de fanáticos de animé será de 300 + 90*1= 390, luego del segundo semestre habrán 300 + 90*2 = 480, de esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán 300 + 90*12 = 1.380 fanáticos del animé.
 
+
 #### **Pregunta 3:**
 Considere un test con dos muestras *no* aparejado, explique porque se hace una corrección a los grados de libertad en el test de Welsh.
 
@@ -281,17 +282,26 @@ power.z.test <- function(n1=NULL, sigma1=0.5,
                          n2=NULL,sigma2=0.5, mu.Ha=0 , 
                          mu.True=0, alfa=0.05){
   if(is.null(n2)){
-    # 
+    
+    # Se calcula Z a partir de la función qnorm
     Z = qnorm(1-alfa)
     
+    # Se calcula el denominador de la expresión asociada a Z-test
     denominador = sigma1/sqrt(n1)
+    
+    # Se calcula la media muestral a partir de Z
     X_bar = Z*denominador + mu.Ha
     
+    # Se calcula el numerador de la expresión asociada a Z-test
     numerador = X_bar - mu.True
+    
+    # Se calcula el Z-test
     Z = numerador/denominador
+    
+    # Se calcula la potencia asociada a Z-test
     Power = 1 - pnorm(Z)
     
-    # 
+    # Se calcula  
     min_lim = min(rnorm(1000, mean=mu.Ha, sd=denominador)) - 
       round(min(rnorm(1000, mean=mu.Ha, sd=denominador)))%%10
     max_lim = max(rnorm(1000, mean=mu.True, sd=denominador)) +
@@ -313,26 +323,111 @@ power.z.test <- function(n1=NULL, sigma1=0.5,
     }
   
   if(!is.null(n2)){
-    #
+    Z = qnorm(1-alfa)
+    
+    denominador = sqrt((sigma1^2/n1) + (sigma2^2/n2))
+    X_bar = Z*denominador + mu.Ha
+    
+    numerador = X_bar - mu.True
+    
+    Z = numerador/denominador
+    Power = 1 - pnorm(Z)
     
     # 
+    min_lim = min(rnorm(1000, mean=mu.Ha, sd=denominador)) - 
+      round(min(rnorm(1000, mean=mu.Ha, sd=denominador)))%%10
+    max_lim = max(rnorm(1000, mean=mu.True, sd=denominador)) +
+      round(max(rnorm(1000, mean=mu.True, sd=denominador)))%%10
       
     # 
-      
-    # 
-    plot = NULL # Solo esta null para que puedan ejecutarlo.
-  
-  }
+    plot <- ggplot(data.frame(x = c(min_lim, max_lim)), aes(x)) + 
+      stat_function(fun = dnorm, args = list(mean = mu.Ha, sd = denominador), 
+                    col='red') +
+      stat_function(fun = dnorm, args = list(mean = mu.True, sd = denominador), 
+                    col='blue') +
+      stat_function(fun = dnorm, args = list(mean = mu.True, sd = denominador), 
+                    xlim = c(X_bar,max_lim), geom = "area", fill='red') + 
+      geom_vline(xintercept = X_bar, linetype="dotted", size=1) +
+      annotate(x=X_bar, y=+Inf,label="alpha", vjust=2, geom="label") +
+      theme_minimal() +
+      ggtitle("H0 vs Ha") +
+      xlab(expression(bar(X1)-bar(X2))) + ylab("Density")
+    }
   
   # Como R no permite retornar dos salidas usamos una lista
   # Los resultados se llaman con $plot o $power
   return(list(plot=plot,power=Power))
 }
 
+```
 
+
+```{r}
 # Plot de gráfico de potencia
+power_data <- function(alfa){
+  values = 90:130
+  power <- c()
+  for(i in values){
+    z <- power.z.test(n1=16, sigma1 = 16, mu.Ha = 100, mu.True = i, alfa = alfa)
+    power <- append(power, z$power)
+  }
+  return(data.frame(x=values, y=power))
+}
+```
 
+
+```{r}
+plots_power <- function(){
+  d1 <- power_data(0.01)
+  d2 <- power_data(0.05)
+  d3 <- power_data(0.1)
+  
+  ggplot() + 
+    geom_line(data=d1, aes(x=x, y=y, colour="0.01")) + 
+    geom_point(data=d1, aes(x=x, y=y, colour="0.01")) + 
+    
+    geom_line(data=d2, aes(x=x, y=y, colour="0.05"))+ 
+    geom_point(data=d2, aes(x=x, y=y, colour= "0.05"))+
+    
+    geom_line(data=d3, aes(x=x, y=y, colour="0.1"))+
+    geom_point(data=d3, aes(x=x, y=y, colour="0.1")) + 
+    guides(fill=guide_legend(title="Valor alfa")) + 
+    scale_colour_manual("Valores de alfa", 
+                        breaks = c("0.01", "0.05", "0.1"),
+                        values = c("red", "black", "blue")) + 
+ 
+    labs(x="Valor media población", y="Valor potencia", title="Gráfico potencia para un t Test para distintos valores de alpha")
+}
+```
+
+
+```{r}
+plots_power()
+```
+
+```{r}
 # Experimentos
+plot_dis <- function(n1=16, sigma1=16, 
+                         n2=NULL,sigma2=16, mu.Ha=100 , 
+                         mu.True=108){
+  values = 1:10/100
+  for(i in values){
+    z <- power.z.test(n1=n1, sigma1 = sigma1, n2 = n2, sigma2 = sigma2, 
+                      mu.Ha = mu.Ha, mu.True = mu.True, alfa = i)
+    plot(z$plot)
+  }
+  return()   
+  }
+```
+
+
+```{r}
+one <- plot_dis()
+```
+
+
+```{r}
+two <- plot_dis(n2=16)
 ```
 
 ---
@@ -389,6 +484,23 @@ $$\sigma_{PhD} = 20615$$
 ```{r}
 df = read.csv('marketing_campaign.csv', sep='\t')
 
+# grad 
+grad = df[df$Education == "Graduation", ]
+grad = grad[c("ID", "Income")]
+grad = na.omit(grad)
+
+master = df[df$Education == "Master", ]
+master = grad[c("ID", "Income")]
+master = na.omit(master)
+
+phd = df[df$Education == "PhD", ]
+phd = phd[c("ID", "Income")]
+phd = na.omit(phd)
+```
+
+
+```{r}
+
 # Implementación de Z-test one-sided y two-sided
 # Puede utilizar este esqueleto
 z_test <- function(data1=NULL, sigma1=0.5, data2=NULL, sigma2=0.5, 
@@ -404,10 +516,11 @@ z_test <- function(data1=NULL, sigma1=0.5, data2=NULL, sigma2=0.5,
     return()
   }
   else if(is.null(data2)){
+    z_score_one = (mean(data))
     
     # P-value
     if(test.type=='menor'){
-
+      
     }
     else if(test.type=='mayor'){
 
@@ -450,6 +563,9 @@ z_test <- function(data1=NULL, sigma1=0.5, data2=NULL, sigma2=0.5,
     return(p_value)
   }
 }
+```
+
+```{r}
 ```
 
 ```{r}
