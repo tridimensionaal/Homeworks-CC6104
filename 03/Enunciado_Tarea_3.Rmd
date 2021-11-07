@@ -88,7 +88,7 @@ $$\hat{N°\_de\_fanaticos\_del\_anime}=300+90*numero\_de\_semestres$$
 #### **Pregunta 3:**
 Considere un test con dos muestras *no* aparejado, explique porque se hace una corrección a los grados de libertad en el test de Welsh.
 
-> Respuesta Aquí
+> 
 
 
 #### **Pregunta 4:**
@@ -152,7 +152,7 @@ En la siguiente sección deberá resolver cada uno de los experimentos computaci
 
 Para el desarrollo preste mucha atención en los enunciados, ya que se le solicitará la implementación de métodos sin uso de funciones predefinidas. Por otro lado, Las librerías permitidas para desarrollar de la tarea 3 son las siguientes:
 
-```{r, eval=FALSE}
+```{r}
 # Manipulación de estructuras
 library(tidyverse)
 library(dplyr)
@@ -248,11 +248,6 @@ Para los plots deberían obtener algo similar a las figuras expuestas, donde en 
 <p>
 </p>
 
-
-
-
-
-
 - Si utiliza el esqueleto propuesto, complete y comente que realiza cada una de las partes de la función one-sample entregada.
 
 Codificada la función realice los siguientes experimentos:
@@ -275,7 +270,7 @@ Para el diseño de experimentos y/o comprobación de sus métodos puede serles �
 - Two-Sample: [Simple Power Calculation for Two-Sample Z Test](https://ytliu0.github.io/Stat_Med/power2.html)
 
 **Respuesta**
-```{r, eval=FALSE}
+```{r}
 # Power Function, El esqueleto posee como ejemplo como obtener la potencia de un z-test one-sample.
 # Si utiliza este esqueleto deberá comentar la función que cumple cada una de las partes entregadas
 power.z.test <- function(n1=NULL, sigma1=0.5, 
@@ -490,7 +485,7 @@ grad = grad[c("ID", "Income")]
 grad = na.omit(grad)
 
 master = df[df$Education == "Master", ]
-master = grad[c("ID", "Income")]
+master = master[c("ID", "Income")]
 master = na.omit(master)
 
 phd = df[df$Education == "PhD", ]
@@ -516,42 +511,58 @@ z_test <- function(data1=NULL, sigma1=0.5, data2=NULL, sigma2=0.5,
     return()
   }
   else if(is.null(data2)){
-    z_score_one = (mean(data))
+    n = nrow(data1)
+    x_bar = mean(data1$Income)
+    se <- sigma1/sqrt(n)
     
+    Z_score <- (x_bar- mu.Ha)/se
     # P-value
     if(test.type=='menor'){
-      
+     p_value <- 1 - pt(Z_score, df = n-1)
     }
     else if(test.type=='mayor'){
-
+      p_value <- pt(-Z_score, df = n-1)
     }
     else if(test.type=='two-sided'){
-
+      p_value <- 2*pt(-abs(Z_score), df = n-1)
     }
-    
     # Texto de Salida
     if(verbose){
       cat("\tOne-sample Z-Test:\n\nData analizada:",
                       deparse(substitute(data1)), "\nZ=", Z_score, 
                       "P-value=", p_value, "\n\n",sep=" ")
     }
-    
     return(p_value)
     
   }
   else if(!is.null(data2)){
     # Hypothesis test
+    n1 = nrow(data1)
+    n2 = nrow(data2)
     
+    x1_bar = mean(data1$Income)
+    x2_bar = mean(data2$Income)
+    
+    se1 <-(sigma1^2)/n1
+    se2 <-(sigma2^2)/n2
+    
+    Z_score <- (x1_bar- x2_bar - mu.Ha)/sqrt(se1 + se2)
+    
+    up <- (se1 + se2)^2
+    down <- (se1^2)/(n1-1) + (se2^2)/(n2-1)
+    df <- up/down
+ 
     # p-value
     if(test.type=='menor'){
-      p_value = ...
+      p_value <- 1 - pt(Z_score, df = df)
     }
     else if(test.type=='mayor'){
-      p_value = ...
+      p_value <- pt(-Z_score, df = df)
     }
     else if(test.type=='two-sided'){
-      p_value = ...
+      p_value <- 2*pt(-abs(Z_score), df = df)
     }
+      
     # Texto de Salida
     if(verbose){
       cat("\tTwo-sample Z-Test:\n\nData analizada:",
@@ -565,13 +576,49 @@ z_test <- function(data1=NULL, sigma1=0.5, data2=NULL, sigma2=0.5,
 }
 ```
 
+
 ```{r}
+p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'mayor', verbose=TRUE)
 ```
 
 ```{r}
-z.test.multiple_testing <- function(){
+p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'menor', verbose=TRUE)
+```
+
+```{r}
+p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'two-sided', verbose=TRUE)
+```
+```{r}
+z.test.multiple_testing <- function(data1, data2, sigma1, sigma2, test=100){
+  
+  n1 =  nrow(data1)
+  n2 =  nrow(data2)
+  
+  p_values <- c()
+  for (i in 1:n){
+    samp_data1 <- sample(1:n1, 100)
+    samp_data2 <- sample(1:n2, 100)
+    
+    p <- z_test(data1=data1[samp_data1, ], data2=data2[samp_data2, ], sigma1=sigma1, sigma2=sigma2, mu.Ha=0, test.type = 'two-sided', verbose=FALSE)
+    
+    p_values <- append(p_values, p*test)
+  }
+  return(p_values)
 }
 ```
+
+
+```{r}
+grad_v_master <- z.test.multiple_testing(data1 = grad, data2 = master, sigma1 = 28180, sigma2 = 20160)
+any(grad_v_master < 0.05)
+```
+
+
+```{r}
+grad_v_phd <- z.test.multiple_testing(data1 = grad, data2 = phd, sigma1 = 28180, sigma2 = 20615)
+any(grad_v_phd < 0.05)
+```
+
 
 ### Pregunta 3: Testeando multiples hipotesis y Bonferroni Correction
 
