@@ -589,13 +589,13 @@ p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'menor'
 p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'two-sided', verbose=TRUE)
 ```
 ```{r}
-z.test.multiple_testing <- function(data1, data2, sigma1, sigma2, test=100){
+z.test.multiple_testing <- function(data1, data2, sigma1, sigma2, test=10){
   
   n1 =  nrow(data1)
   n2 =  nrow(data2)
   
   p_values <- c()
-  for (i in 1:n){
+  for (i in 1:test){
     samp_data1 <- sample(1:n1, 100)
     samp_data2 <- sample(1:n2, 100)
     
@@ -617,6 +617,7 @@ any(grad_v_master < 0.05)
 ```{r}
 grad_v_phd <- z.test.multiple_testing(data1 = grad, data2 = phd, sigma1 = 28180, sigma2 = 20615)
 any(grad_v_phd < 0.05)
+min(grad_v_phd)
 ```
 
 
@@ -636,31 +637,102 @@ $$\mathbb{P}(\text{obtener al menos resultado significativo por azar})=1-(1-\alp
 - [ ] Ejecute el siguiente código que calcula el $p$-valor usual y el $p$-valor asociado a Bonferroni (que corresponde al $p$-valor * m donde $m$ es el numero de experimentos), ¿Cuantos valores que originalmente se hubieran aceptado fueron rechazados si $\alpha = 0.05$? ¿Que implica esto sobre el nivel de falsos negativos de este metodo?
 
 
-```{r, eval=FALSE}
-data <- read.csv("ratones.csv",sep= ";", stringsAsFactors = T)
-head(data)
-```
+
 
 **Respuesta Aquí:**
 
 ```{r}
 
-probEmpirica <- function(alpha,m){
-  n <- 10000 # Cantidad de veces que se va a repetir el experimento para estimar la probabilidad, pueden cambiar este valor si lo desean
+probEmpirica <- function(alpha,m, bonfe = FALSE){
+  n <- 100 # Cantidad de veces que se va a repetir el experimento para estimar la probabilidad, pueden cambiar este valor si lo desean
   
-
-  res <-... #Resultados de los experimentos
+  res <- rbinom(n, m, alpha)
   
   # Puede agergar todo el codigo que estime conveniente para calcular la probabilidad empirica
-  ...
-  ...
-  #
-  prob <-... # Probabilidad empirica
+  if(bonfe){
+    res <- rbinom(n, m, alpha/m)
+  }
+  else{
+    res <- rbinom(n, m, alpha)
+  }
+  
+  prob <- length(res[res>0])/n
   
   return(prob)
-  
 }
+```
 
+
+```{r}
+plot_probs <- function(n, alpha, bonfe = FALSE){
+  probs_emp <- c()
+  probs_real <- c()
+  
+  if(bonfe){
+    probs_emp_bonfe <- c()
+    probs_real_bonfe <- c()
+  }
+ 
+  for(i in 1:n){
+    p1 <- probEmpirica(alpha, i)
+    p2 <- 1 - (1-alpha)^i
+    
+    probs_emp <- append(probs_emp, p1)
+    probs_real <- append(probs_real, p2)
+    
+    if (bonfe){
+      p3 <- probEmpirica(alpha, i , bonfe = bonfe)
+      p4 <- 1 - (1-alpha/i)^i
+      
+      probs_emp_bonfe <- append(probs_emp_bonfe, p3)
+      probs_real_bonfe <- append(probs_real_bonfe, p4)
+      }
+    }
+  
+  d1 = data.frame(x=1:n, y=probs_emp)
+  d2 = data.frame(x=1:n, y=probs_real)
+  
+  plot <- ggplot() + 
+    geom_line(data=d1, aes(x=x, y=y, colour="Empírica sin correción")) + 
+    geom_line(data=d2, aes(x=x, y=y, colour="Real sin correción"))
+  
+  if (bonfe){
+    d3 = data.frame(x=1:n, y=probs_emp_bonfe)
+    d4 = data.frame(x=1:n, y=probs_real_bonfe)
+    
+    plot <- plot + 
+      geom_line(data=d3, aes(x=x, y=y, colour="Empírica con correción")) + 
+      geom_line(data=d4, aes(x=x, y=y, colour="Real con correción")) + 
+      guides(fill=guide_legend(title="Tipo probabilidad")) + 
+      scale_colour_manual("Tipo de probabilidad", 
+                          # breaks = c("Empírica sin corrección", "Real sin correción","Empírica con corrección", "Real con correción"),
+                          values = c("red", "blue", "black", "green")
+      )
+    }
+  else{
+    plot <- plot + 
+       guides(fill=guide_legend(title="Tipo probabilidad")) + 
+      scale_colour_manual("Tipo de probabilidad", 
+                          breaks = c("Empírica sin correción", "Real sin correción"),
+                          values = c("red", "blue")) 
+  }
+  plot <- plot + 
+    labs(x="Valor m (cantidad experimentos)", y="Probabilidad de obtener \n al menos un experimento exitoso", title="Probabilidades del evento")
+  
+  return(plot)
+}
+```
+
+
+
+```{r}
+hola <- plot_probs(500, 0.05, bonfe = TRUE)
+plot(hola)
+```
+
+```{r}
+data <- read.csv("ratones.csv",sep= ";", stringsAsFactors = T)
+data
 ```
 
 ---
