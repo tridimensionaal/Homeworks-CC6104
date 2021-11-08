@@ -11,8 +11,8 @@ output:
 <center><strong>CC6104: Statistical Thinking</strong></center>
 #### **Integrantes :** 
 
-- Alumno 1
-- Alumno 2
+- Alumno 1: Camila Bergasa
+- Alumno 2: Matías Seda
 
 #### **Cuerpo Docente:**
 
@@ -82,7 +82,11 @@ $$\hat{N°\_de\_fanaticos\_del\_anime}=300+90*numero\_de\_semestres$$
 
 ¿Como podemos interpretar el intercepto y pendiente del modelo?, ¿El intercepto y la pendiente tienen una interpretación coherente para cualquier modelo lineal?, si no es así, de un ejemplo.
 
-> El modelo lineal nos dice que a medida que avanzan los semestres la cantidad de fanáticos va aumentando según esa regla. En este caso el intercepto es igual a 300, por lo que cuando las personas ingresan a la universidad y han pasado 0 semestres, el número de fanáticos de animé es igual a 300. Por otro lado, la pendiente nos dice la tasa a la cual ocurre el aumento de fanáticos de animé en cada semestre, es decir, luego del primer semestre la cantidad de fanáticos de animé será de 300 + 90*1= 390, luego del segundo semestre habrán 300 + 90*2 = 480, de esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán 300 + 90*12 = 1.380 fanáticos del animé.
+> El modelo lineal nos dice que a medida que avanzan los semestres la cantidad de fanáticos va aumentando según esa regla. En este caso el intercepto es igual a 300, por lo que cuando las personas ingresan a la universidad y han pasado 0 semestres, el número de fanáticos de animé es igual a 300. Por otro lado, la pendiente nos dice la tasa a la cual ocurre el aumento de fanáticos de animé en cada semestre, es decir, luego del primer semestre la cantidad de fanáticos de animé será de:
+
+$300 + 90*1= 390$, luego del segundo semestre habrán $300 + 90*2 = 480$
+
+De esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán $300 + 90*12 = 1.380$ fanáticos del animé.
 
 
 #### **Pregunta 3:**
@@ -95,7 +99,7 @@ Considere un test con dos muestras *no* aparejado, explique porque se hace una c
 
 Al realizar una regresión lineal simple con una variable categórica $(\beta_{0} + \beta_{1} \cdot \text{categroica})$  ¿que interpretación puede obtenerse del coeficiente que acompaña a la variable categórica?
 
-> Respuesta Aquí
+> En una regresión lineal simple el parámetro beta_{1} corresponde a la pendiente de la recta y representa el cambio en y cuando variamos el valor de x, que en este caso va a corresponder a una variable categórica. Mientras mayor sea la magnitud de este parámetro, más fuerte será la relación lineal. Si beta_{1} se parece a cero, entonces habrá una independencia lineal entre las variables, siendo la variable categórica x poco significativa para la variable de interés y. 
 
 #### **Pregunta 5:**
 Discuta la siguiente frase:
@@ -104,20 +108,20 @@ Discuta la siguiente frase:
 Hacer una regresión lineal mediante máxima verosimilitud requiere tener ciertas hipótesis probabilisticas de los datos, mientras que una regresión realizada mediante mínimos cuadrados no necesita tener ninguna hipótesis probabilista.
 "
 
-> Respuesta Aquí
+> Si bien no se realiza ninguna hipótesis probabilística, cada vez que se realiza estimación por mínimos cuadrados, implícitamente se están asumiento todos los supuestos del modelo lineal probabilístico, estos son, linealidad, normalidad, independencia y homocedasticidad.
 
 #### **Pregunta 6:**
 
 Explique porque el test de significancia sobre los parámetros de una regresión lineal se realiza bajo la hipótesis nula $\beta_{H_{0}}=0$.
 
-> Respuesta Aquí
+> Para el test de significancia se considera como hipótesis nula H0 el hecho de que los parámetros asociados a las variables independientes sean iguales a cero, esto es debido a que si son cercanos a cero, entonces no poseen significancia estadística e implica que existe una independencia lineal respecto de la variable de interés. Que sea cero significa que en la medida que existe una variación en x, esta no afectará el valor de y.
 
 
 #### **Pregunta 7:**
 
 ¿Que nos dice la equivalencia de la máxima verosimilitud sobre los parámetros que componen una regresión lineal? ¿Qué nos permitirían calcular?
 
-> Respuesta Aquí
+> Nos dice que las eecuaciones de los parámetros corresponden a estimadores de máxima verosimilitud, se sabe que estos estimadores poseen ciertas propiedades, son consistentes, son asíntoticamente normales, es decir, que la sampling distribution de los estimadores comienzan a converger a una gaussiana lo cual nos permite calcular intervalos de confianza sobre los estimadores, se podría generar entonces un idc para los parámetros del modelo. Esto permite tener información acerca de la variabilidad de la estimación. Se pueden realizar test de hipótesis, para testear significancia por ejemplo.
 
 
 ### **Pregunta 8**
@@ -129,7 +133,7 @@ $$
 $$
 Explique en que se diferencia con mínimos cuadrados, de una posible ventaja y desventaja de este método (en comparación a mínimos cuadrados).
 
-> Respuesta Aqui
+> Minimizar el error cuadrático es equivalente a maximizar la verosimilitud...
 
 
 #### **Pregunta 9:**
@@ -142,7 +146,7 @@ Explique porque el coeficiente $R^2$ tiende a crecer con el numero de variables.
 
 Un estudio de cáncer realizado por la institución X ha señalado que las personas que beben café poseen mayores probabilidades de padecer algún cáncer pulmonar.  El estudio causo un gran revuelo en la población, por lo que una segunda institución ha decidido replicar el experimento, llegando a la conclusión que las personas que toman café tienden a fumar cigarrillos mientras beben esta bebida. Señale que tipo de variable serían los fumadores de cigarrillos en el estudio de cáncer pulmonar y explique cual es la característica de estas variables.
 
-> Respuesta Aquí
+> En el primer estudio se aprecia la existencia de una correlación entre el consumo de café y el padecer un cáncer pulmonar, sin embargo el segundo estudio demuestra que si bien existe una correlación entre los fenómenos descritos esta no corresponde a una relación causal y que en realidad existe una tercera variable implicada, la cuál corresponde a ser fumador y explica la existencia de la correlación.
 
 ---
 
@@ -892,6 +896,30 @@ reg_simple_nof
 summary(reg_simple)
 summary(reg_simple_f)
 summary(reg_simple_nof)
+sum.reg_simple <- summary(reg_simple)
+sum.reg_simple$r.squared
+SSE1 <- sum(reg_simple$residuals^2)
+SST1 <- sum((insurance$smokers - mean(insurance$smokers))^2)
+SSM1 <- sum((reg_simple$fitted.values - mean(insurance$smokers))^2)
+SSM1/SST1
+1-SSE1/SST1
+
+
+sum.reg_simple_f <- summary(reg_simple_f)
+sum.reg_simple_f$r.squared
+SSE2 <- sum(reg_simple_f$residuals^2)
+SST2 <- sum((df_f$bmi - mean(df_f$bmi))^2)
+SSM2 <- sum((reg_simple_f$fitted.values - mean(df_f$bmi))^2)
+SSM2/SST2
+1-SSE2/SST2
+
+sum.reg_simple_nof <- summary(reg_simple_nof)
+sum.reg_simple_nof$r.squared
+SSE3 <- sum(reg_simple_nof$residuals^2)
+SST3 <- sum((df_nof$age - mean(df_nof$age))^2)
+SSM3 <- sum((reg_simple_nof$fitted.values - mean(df_nof$age))^2)
+SSM3/SST3
+1-SSE3/SST3
 
 # Grafique el scatterplot de los datos y la linea que ajusta a la regresión lineal obtenida.
 
