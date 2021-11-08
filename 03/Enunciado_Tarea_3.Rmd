@@ -830,9 +830,108 @@ b) Estudie si el modelo multivariable posee mejor desempeño que el modelo simpl
 **Nota:** No esta permitido utilizar comandos que obtengan los valores solicitados directamente a menos que se le permita en la pregunta.
 
 ```{r}
+
+# PARTE I
+
+# Cargar Dataset
+library(readr)
+insurance <- read_csv("C:/Users/camil/Homeworks-CC6104/03/insurance.csv")
+
+insurance$smokers <- ifelse(insurance$smoker == 'yes', 1, 0)
+#Separar dataset en fumadores y no fumadores
+#Fumadores
+df_f <- insurance[insurance$smoker == 'yes', ]
+#No fumadores
+df_nof <- insurance[insurance$smoker == 'no', ]
+
+#Pasar variable categórica a variable dummy en una nueva columna llamada smokers
+#Fumador = 1, No fumador = 0
+df_f$smokers <- ifelse(df_f$smoker == 'yes', 1, 0)
+df_nof$smokers <- ifelse(df_nof$smoker == 'no', 0, 1)
+
+#Visualizar como quedan los datasets
+#view(df_f)
+#view(df_nof)
+
+# Ver correlación entre las variables numéricas y  la variable de interés charges
+# Para el dataset completo
+cor(insurance$age,insurance$charges)
+cor(insurance$bmi,insurance$charges)
+cor(insurance$children,insurance$charges)
+cor(insurance$smokers,insurance$charges)
+
+# Para el dataset de fumadores 
+cor(df_f$age,df_f$charges)
+cor(df_f$bmi,df_f$charges)
+cor(df_f$children,df_f$charges)
+cor(df_f$smokers,df_f$charges) # Posee desviación estándar 0
+# Para el dataset de no fumadores 
+cor(df_nof$age,df_nof$charges)
+cor(df_nof$bmi,df_nof$charges)
+cor(df_nof$children,df_nof$charges)
+cor(df_nof$smokers,df_nof$charges) # Posee desviación estándar 0
+
+# Para el dataser completo, la variable más correlacionada con charges corresponde a la variable smokers 
+# Para el dataset de fumadores la variable que está más correlacionada es la de bmi o índice de masa corporal
+# Para el dataset de no fumadores, la variable que está más correlacionada es la de age (edad)
+
+
+# Se escoge la variable smokers, por ser la que posee la correlación más alta con la variable de interés en el dataset completo
+reg_simple <- lm(charges ~ smokers, data = insurance)
+reg_simple
+# Se escoge la variable bmi, por ser la que posee la correlación más alta con la variable de interés para el dataset de fumadores 
+reg_simple_f <- lm(charges ~ bmi, data = df_f)
+reg_simple_f
+# Se escoge la variable age, por ser la que posee la correlación más alta con la variable de interés para el dataset de no fumadores 
+reg_simple_nof <- lm(charges ~ age, data = df_nof)
+reg_simple_nof 
+
+
+# Señale tanto el $R^2$ como el $R^2-adjustado$ del modelo.
+
+summary(reg_simple)
+summary(reg_simple_f)
+summary(reg_simple_nof)
+
+# Grafique el scatterplot de los datos y la linea que ajusta a la regresión lineal obtenida.
+
+attach(insurance)
+plot(insurance$smokers, insurance$charges, main="Scatterplot",
+   xlab="Smokers ", ylab="charges ", pch=19)
+abline(reg_simple, col = "orange", lwd = 3)
+
+attach(df_f)
+plot(df_f$bmi, df_f$charges, main="Scatterplot",
+   xlab="Índice de masa corporal ", ylab="charges ", pch=19)
+abline(reg_simple_f, col = "orange", lwd = 3)
+
+attach(df_nof)
+plot(df_nof$age, df_nof$charges, main="Scatterplot",
+   xlab="Age", ylab="charges ", pch=19)
+abline(reg_simple_nof, data = df_nof, col = "orange", lwd = 3)
+
 lm_reg <- function(X, Y){
 
 }
+```
+```{r}
+# PARTE II
+#Entrene un modelo lineal multivariable escogiendo dos variables numéricas que posean la mayor relación con `charges`.
+
+reg_mult <- lm(charges ~ smokers + age , data = insurance)
+reg_mult
+
+reg_mult_f <- lm(charges ~ bmi + age , data = df_f)
+reg_mult_f
+
+reg_mult_nof <- lm(charges ~ age + children , data = df_nof)
+reg_mult_nof
+#Estudie si el modelo multivariable posee mejor desempeño que el modelo simple y comente los resultados. ¿Es recomendable la utilización de los modelos creados para la predicción de nuevas entradas?. Para este análisis puede utilizar los valores de test de hipótesis entregados por el comando `lm()`, ya que esto le servirá para observar si la regresión lineal es significativa.
+
+summary(reg_mult)
+summary(reg_mult_f)
+summary(reg_mult_nof)
+
 ```
 
 
