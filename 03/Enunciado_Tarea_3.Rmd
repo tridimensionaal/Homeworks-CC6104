@@ -270,6 +270,8 @@ Para el diseño de experimentos y/o comprobación de sus métodos puede serles �
 - Two-Sample: [Simple Power Calculation for Two-Sample Z Test](https://ytliu0.github.io/Stat_Med/power2.html)
 
 **Respuesta**
+
+Inicialmene, se implemente la función `power.z.test` que permite calcula la potencia de un test de hipótesis.
 ```{r}
 # Power Function, El esqueleto posee como ejemplo como obtener la potencia de un z-test one-sample.
 # Si utiliza este esqueleto deberá comentar la función que cumple cada una de las partes entregadas
@@ -296,13 +298,17 @@ power.z.test <- function(n1=NULL, sigma1=0.5,
     # Se calcula la potencia asociada a Z-test
     Power = 1 - pnorm(Z)
     
-    # Se calcula  
+    # Se calculan las distribuciones normales asociadas a los
+    # valores dados y calculados. En particular, son dos distribuciones:
+    # una distribución asociada a la media del test de hipótesis y
+    # otra distribución asociada a la media real de la población
     min_lim = min(rnorm(1000, mean=mu.Ha, sd=denominador)) - 
       round(min(rnorm(1000, mean=mu.Ha, sd=denominador)))%%10
     max_lim = max(rnorm(1000, mean=mu.True, sd=denominador)) +
       round(max(rnorm(1000, mean=mu.True, sd=denominador)))%%10
       
-    # 
+    # Se grafican las curvas asociadas a las distribucione normales
+    # calculadas anteriormente
     plot <- ggplot(data.frame(x = c(min_lim, max_lim)), aes(x)) + 
       stat_function(fun = dnorm, args = list(mean = mu.Ha, sd = denominador), 
                     col='red') +
@@ -316,6 +322,7 @@ power.z.test <- function(n1=NULL, sigma1=0.5,
       ggtitle("H0 vs Ha") +
       xlab(expression(bar(X))) + ylab("Density")
     }
+  
   
   if(!is.null(n2)){
     Z = qnorm(1-alfa)
@@ -357,6 +364,7 @@ power.z.test <- function(n1=NULL, sigma1=0.5,
 ```
 
 
+Con la implemetanción de la función `power.z.test`, se implementa la función `power_data` que permite crear un data frame que relaciona, dado un $\alpha$, la potencia de un z test respecto a la media real de los datos, es decir, dado un $\alpha$, se varía el valor de la media real para observar como varía la potencia del z test.
 ```{r}
 # Plot de gráfico de potencia
 power_data <- function(alfa){
@@ -370,7 +378,7 @@ power_data <- function(alfa){
 }
 ```
 
-
+Así, dado la función `power_data`, se crea la función `plots_power` que imprime las curvas de potencia para z tests con distintos valores de $\alpha$.
 ```{r}
 plots_power <- function(){
   d1 <- power_data(0.01)
@@ -396,10 +404,12 @@ plots_power <- function(){
 ```
 
 
+Gráfico curvas potencias.
 ```{r}
 plots_power()
 ```
 
+Ahora, para diseñar un experimento one-sample y un experimento two-sided y visualizar cómo se comportan las distribuciones normales de la hipótesis nula y la hipótesis alternativa al variar $\alpha$, se implementó la función `plot_dis` permite realizar dicho experimentos.
 ```{r}
 # Experimentos
 plot_dis <- function(n1=16, sigma1=16, 
@@ -416,11 +426,13 @@ plot_dis <- function(n1=16, sigma1=16,
 ```
 
 
+Para el caso one-sided, se tiene los siguiente gráficos:
 ```{r}
 one <- plot_dis()
 ```
 
 
+Por el otro lado, ara el caso two-sided, se tiene los siguiente gráficos:
 ```{r}
 two <- plot_dis(n2=16)
 ```
@@ -476,6 +488,7 @@ $$\sigma_{PhD} = 20615$$
 
 **Respuesta:**
 
+Inicialmente, se **formatea** la data para que sea apta para los test de hipótesis.
 ```{r}
 df = read.csv('marketing_campaign.csv', sep='\t')
 
@@ -494,8 +507,8 @@ phd = na.omit(phd)
 ```
 
 
+Se implementa la función `z_test` con la metodología one sample y two sample, permitiendo obtener los p-valores a través de las alternativas one-sided y two-sided. 
 ```{r}
-
 # Implementación de Z-test one-sided y two-sided
 # Puede utilizar este esqueleto
 z_test <- function(data1=NULL, sigma1=0.5, data2=NULL, sigma2=0.5, 
@@ -577,48 +590,82 @@ z_test <- function(data1=NULL, sigma1=0.5, data2=NULL, sigma2=0.5,
 ```
 
 
+Ahora, dada la función `z_test` se puede comprobar si la media de los ingresos para la variable Graduation es similar a 52000. En particular, definiendo la hipótesis nula $H_{0}: \mu = 52000$ y la hipótesis alternativa $H_{1}: \mu \geq 52000$, se tiene que el z test al $5\%$ es el siguiente:
 ```{r}
 p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'mayor', verbose=TRUE)
 ```
 
+Dado que el p valor obtenido es mayor que $0.05$, no existe evidencia estadística para rechazar la hipótesis nula.
+
+
+Por el otro lado, de forma homóloga,  definiendo la hipótesis nula $H_{0}: \mu = 52000$ y la hipótesis alternativa $H_{1}: \mu \leq 52000$, se tiene que el z test al $5\%$ es el siguiente:
 ```{r}
 p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'menor', verbose=TRUE)
 ```
 
+Nuevamente, dado que el p valor obtenido es mayor que $0.05$, no existe evidencia estadística para rechazar la hipótesis nula.
+
+Finalmente, para el caso two-sided definiendo la hipótesis nula $H_{0}: \mu = 52000$ y la hipótesis alternativa $H_{1}: \mu \neq 52000$, se tiene que el z test al $5\%$ es el siguiente:
+`
 ```{r}
 p_grad_less <- z_test(data1=grad, sigma1=28180, mu.Ha=52000, test.type = 'two-sided', verbose=TRUE)
 ```
+
+Dado que el p valor obtenido es mayor que $0.05$, no existe evidencia estadística para rechazar la hipótesis nula. 
+
+Por tanto, dado los tests realizados, se puede comprobar que la media de los ingresos para la variable `Graduation` es similar a 52000.
+
+Siguiendo el desarrollo del enunciado, `z.test.multiple_testing` que permite realizar solo múltiples test del tipo two-sample.
 ```{r}
-z.test.multiple_testing <- function(data1, data2, sigma1, sigma2, test=10){
+z.test.multiple_testing <- function(list_data, sigma_data, mu.Ha = 0){
   
-  n1 =  nrow(data1)
-  n2 =  nrow(data2)
   
   p_values <- c()
-  for (i in 1:test){
-    samp_data1 <- sample(1:n1, 100)
-    samp_data2 <- sample(1:n2, 100)
-    
-    p <- z_test(data1=data1[samp_data1, ], data2=data2[samp_data2, ], sigma1=sigma1, sigma2=sigma2, mu.Ha=0, test.type = 'two-sided', verbose=FALSE)
-    
-    p_values <- append(p_values, p*test)
+  for (i in 1:(length(list_data)-1)){
+    for(j in (i+1):length(list_data)){
+      p <- z_test(data1=list_data[[i]], data2=list_data[[j]], sigma1=sigma_data[i], 
+                  sigma2=sigma_data[j], mu.Ha= mu.Ha, test.type = 'two-sided', verbose=FALSE)
+      p_values <- append(p_values, p)
+    }
   }
   return(p_values)
 }
 ```
 
 
+Para comparar si los ingresos entre Graduation, Master y PhD es cercana a 0, el siguiente bloque de código permite realizar los z tests correspondientes.
 ```{r}
-grad_v_master <- z.test.multiple_testing(data1 = grad, data2 = master, sigma1 = 28180, sigma2 = 20160)
-any(grad_v_master < 0.05)
+list_data <- list(grad, master, phd)
+list_sigma <- c(28180, 20160, 20615)
+p_values <- z.test.multiple_testing(list_data, list_sigma)
 ```
 
 
+En particular, para el test donde la hipótesis nula es $H_{0}: \mu_{Graduation} - \mu_{Master} = 0 $ y la hipótesis alternativa es $H_{1}: \mu_{Graduation} \neq \mu_{Master}$, se tiene el siguiente p valor.
 ```{r}
-grad_v_phd <- z.test.multiple_testing(data1 = grad, data2 = phd, sigma1 = 28180, sigma2 = 20615)
-any(grad_v_phd < 0.05)
-min(grad_v_phd)
+p_value_grad_master <- p_values[1]
+p_value_grad_master
 ```
+Del mismo modo, el p valor corregido para dicho test es:
+```{r}
+p_value_grad_master*2
+```
+
+Así, dado el test a $5\%$, se tiene que no existe evidencia estadística para rechazar la hipótesis nula, es decir, el ingreso entre las personas con el grado académico `Graduation` y las personas con el grado académico `Master` es cercano a 0.
+
+
+Por el otro lado, para el test donde la hipótesis nula es $H_{0}: \mu_{Graduation} - \mu_{PhD} = 0 $ y la hipótesis alternativa es $H_{1}: \mu_{Graduation} \neq \mu_{PhD}$, se tiene el siguiente p valor.
+```{r}
+p_value_grad_phd<- p_values[2]
+p_value_grad_phd
+```
+
+Del mismo modo, el p valor corregido para dicho test es:
+```{r}
+p_value_grad_phd*2
+```
+
+Así, dado el test a $5\%$, se tiene que existe evidencia estadística para rechazar la hipótesis nula, es decir, el ingreso entre las personas con el grado académico `Graduation` y las personas con el grado académico `Master` no es cercano a 0, es decir, existe una diferencia **estadísticamente significativa** entre el ingreso de las personas con el grado académico `Graduation` y las personas con el grado académico `Master`.
 
 
 ### Pregunta 3: Testeando multiples hipotesis y Bonferroni Correction
@@ -641,9 +688,9 @@ $$\mathbb{P}(\text{obtener al menos resultado significativo por azar})=1-(1-\alp
 
 **Respuesta Aquí:**
 
+Para calcular la probabilidad empírica de los experimentos, se implemento la función `probEmpirica` que permite calcular dicha probabilidad.
 ```{r}
-
-probEmpirica <- function(alpha,m, bonfe = FALSE){
+probEmpirica <- function(alpha, m, bonfe = FALSE){
   n <- 100 # Cantidad de veces que se va a repetir el experimento para estimar la probabilidad, pueden cambiar este valor si lo desean
   
   res <- rbinom(n, m, alpha)
@@ -663,6 +710,7 @@ probEmpirica <- function(alpha,m, bonfe = FALSE){
 ```
 
 
+Ahora, dado la función `probEmpirica`, se quiere observar como varía la probabilidad real y la probabilidad empírica en relación a la cantidad de experimentos realizados. La función `plot_probs` permite graficar dichas curvas.
 ```{r}
 plot_probs <- function(n, alpha, bonfe = FALSE){
   probs_emp <- c()
@@ -717,19 +765,36 @@ plot_probs <- function(n, alpha, bonfe = FALSE){
                           values = c("red", "blue")) 
   }
   plot <- plot + 
-    labs(x="Valor m (cantidad experimentos)", y="Probabilidad de obtener \n al menos un experimento exitoso", title="Probabilidades del evento")
+    labs(x="Valor m (cantidad experimentos)", y="Probabilidad de obtener \n al menos un experimento exitoso", title=paste("Probabilidades del evento con alfa = ", alpha))
   
   return(plot)
 }
 ```
 
 
-
+Para el caso sin corrección, se tiene que las curvas mencionadas son la siguientes:
 ```{r}
-hola <- plot_probs(500, 0.05, bonfe = TRUE)
-plot(hola)
+plots_no_bonfe <- plot_probs(500, 0.05, bonfe = TRUE)
+plot(plots_no_bonfe)
 ```
 
+Dado el gráfico, se tiene que, en primer lugar, la curva asociada a la probabilidad real es similar a la curva asociada a la probabilidad empírica. Asimismo, se puede notar que, a medida que crece la cantidad de experimentos realizados, tanto la probabilidad real como la probabilidad empírica tienden a $1$. En particular, para $m \geq 100$ se tiene que ambas probabilidades con tienden a 1. Asímismo, se tiene que para $m \geq 20$, ambas probabilidades son mayores al $50\%$ y, por tanto, existe mayor probabilidad de tener un experimento exitoso por **azar** y, por tanto, se obtendrían resultados estadísticos significativos por mero azar (lo que es algo que, evidentemente, no se quiere obtener en un experimento).
+
+Nótese que al aumentar el valor de $\alpha$ se tiene el siguiente comportamiento:
+```{r}
+plots_no_bonfe <- plot_probs(500, 0.1)
+plot(plots_no_bonfe)
+```
+
+Del gráfico anterior se observa que, al aumentar $\alpha$, se necesita una cantidad menor de experimentos para lograr que ambas probabilidades tiendan a 1.
+
+Ahora, las curvas con correción son las siguientes:
+```{r}
+plots_no_bonfe <- plot_probs(500, 0.05, bonfe = TRUE)
+plot(plots_no_bonfe)
+```
+
+Nótese que con la correción de Bonferroni se tiene que las probabilidades se mantenienen constantes respecto a la cantidad de test realizados. Por tanto, se tiene que la correción de Bonferroni mejora los resultados dado que ambas probabilidades ya no depende de la cantidad de experimentos y, en consecuencia, con la correción ya no se obtendrían resultados estadísticos significativos por mero azar.
 ```{r}
 data <- read.csv("ratones.csv",sep= ";", stringsAsFactors = T)
 data
