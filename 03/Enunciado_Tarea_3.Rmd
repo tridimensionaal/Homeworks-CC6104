@@ -72,8 +72,19 @@ Determine si las siguientes regresiones son lineales para los parámetros $\beta
 
 - [ ] $y(x) = \ln(x^{2}+\beta_{0})$
 
-> Respuesta Aquí
-
+> La primera regresión es lineal dado que es una regresión de la forma: $y(x) = \beta_{0} + \beta_{1}x$. 
+> 
+> Para el caso de la segunda regresión, desarrollando la expresión se tiene que:
+\[ y(x) = \beta_{0} + \beta_{1} x + (\beta_{3}+x)^{3} = \beta_{0} + \beta_{1} x + \beta_{3}^3 + 3\beta_{3}^2x + 3\beta_{3}x^2 + x^3 \]
+Luego, se tiene que la regresión es de la forma $y(x) = \beta_{0} + \beta_{1}x + \beta_{2}x^2 + \beta_{3}x^3$ y, como no es de la forma $y(x) = \beta_{0} + \beta_{1}x$, entonces se tiene que no es una regresión lineal.
+>
+> Para el caso de la tercera regresión, nótese que si las regresiones lineales son de la forma $y(x) = \beta_{0} + \beta_{1}x$, entonces se tiene que la variación de $y$ cuando cambia $x$ es constante, es decir, se tiene que:
+\[ \frac{d}{dx} (y(x)) = \beta_{1} \]
+Donde $\beta_{1}$ es un valor constante.
+>
+> Para la regresión $y(x) = \ln(x^{2}+\beta_{0})$ se tiene que $\frac{d}{dx} (y(x))$ viene dado por:
+\[ \frac{d}{dx} (y(x)) = \frac{1}{x^2 + \beta_{0}}2x \]
+Es claro que  $\frac{2x}{x^2 + \beta_{0}}$ no es un valor constante y, por tanto, dado que la regresión no cumple $\frac{d}{dx} (y(x)) = \beta_{0}$, es decir, $\frac{d}{dx} (y(x))$ no es un valor constate, entonces se tiene que la regresión no es lineal.
 
 #### **Pregunta 2:**
 Una universidad esta interesada en saber cuantos alumnos gustan del anime, para esto realiza una recopilación de datos y llega a la construcción del siguiente modelo lineal simple:
@@ -83,23 +94,23 @@ $$\hat{N°\_de\_fanaticos\_del\_anime}=300+90*numero\_de\_semestres$$
 ¿Como podemos interpretar el intercepto y pendiente del modelo?, ¿El intercepto y la pendiente tienen una interpretación coherente para cualquier modelo lineal?, si no es así, de un ejemplo.
 
 > El modelo lineal nos dice que a medida que avanzan los semestres la cantidad de fanáticos va aumentando según esa regla. En este caso el intercepto es igual a 300, por lo que cuando las personas ingresan a la universidad y han pasado 0 semestres, el número de fanáticos de animé es igual a 300. Por otro lado, la pendiente nos dice la tasa a la cual ocurre el aumento de fanáticos de animé en cada semestre, es decir, luego del primer semestre la cantidad de fanáticos de animé será de:
-
-$300 + 90*1= 390$, luego del segundo semestre habrán $300 + 90*2 = 480$
-
-De esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán $300 + 90*12 = 1.380$ fanáticos del animé.
+>
+> $300 + 90 \cdot 1= 390$, luego del segundo semestre habrán $300 + 90 \cdot 2 = 480$
+>
+> De esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán $300 + 90*12 = 1.380$ fanáticos del animé.
 
 
 #### **Pregunta 3:**
 Considere un test con dos muestras *no* aparejado, explique porque se hace una corrección a los grados de libertad en el test de Welsh.
 
-> 
+> Porque s
 
 
 #### **Pregunta 4:**
 
 Al realizar una regresión lineal simple con una variable categórica $(\beta_{0} + \beta_{1} \cdot \text{categroica})$  ¿que interpretación puede obtenerse del coeficiente que acompaña a la variable categórica?
 
-> En una regresión lineal simple el parámetro beta_{1} corresponde a la pendiente de la recta y representa el cambio en y cuando variamos el valor de x, que en este caso va a corresponder a una variable categórica. Mientras mayor sea la magnitud de este parámetro, más fuerte será la relación lineal. Si beta_{1} se parece a cero, entonces habrá una independencia lineal entre las variables, siendo la variable categórica x poco significativa para la variable de interés y. 
+> En una regresión lineal simple el parámetro $beta_{1}$ corresponde a la pendiente de la recta y representa el cambio en y cuando variamos el valor de x. Mientras mayor sea la magnitud de este parámetro, más fuerte será la relación lineal. Si beta_{1} se parece a cero, entonces habrá una independencia lineal entre las variables, siendo la variable categórica x poco significativa para la variable de interés y. Dado que estamos considerando que x corresponde a una variable categórica, esta variable puede tomar un valor de un número limitado de valores, esto genera que el coeficiente ponderado por el valor de la categoría posea una relevancia diferente para Y dependiendo del valor asignado a la categoría. El coeficiente entonces tendrá una significancia diferente según pertenezca a una categoría o a otra.
 
 #### **Pregunta 5:**
 Discuta la siguiente frase:
@@ -107,7 +118,6 @@ Discuta la siguiente frase:
 "
 Hacer una regresión lineal mediante máxima verosimilitud requiere tener ciertas hipótesis probabilisticas de los datos, mientras que una regresión realizada mediante mínimos cuadrados no necesita tener ninguna hipótesis probabilista.
 "
-
 > Si bien no se realiza ninguna hipótesis probabilística, cada vez que se realiza estimación por mínimos cuadrados, implícitamente se están asumiento todos los supuestos del modelo lineal probabilístico, estos son, linealidad, normalidad, independencia y homocedasticidad.
 
 #### **Pregunta 6:**
@@ -121,8 +131,7 @@ Explique porque el test de significancia sobre los parámetros de una regresión
 
 ¿Que nos dice la equivalencia de la máxima verosimilitud sobre los parámetros que componen una regresión lineal? ¿Qué nos permitirían calcular?
 
-> Nos dice que las eecuaciones de los parámetros corresponden a estimadores de máxima verosimilitud, se sabe que estos estimadores poseen ciertas propiedades, son consistentes, son asíntoticamente normales, es decir, que la sampling distribution de los estimadores comienzan a converger a una gaussiana lo cual nos permite calcular intervalos de confianza sobre los estimadores, se podría generar entonces un idc para los parámetros del modelo. Esto permite tener información acerca de la variabilidad de la estimación. Se pueden realizar test de hipótesis, para testear significancia por ejemplo.
-
+> Nos dice que las ecuaciones de los parámetros corresponden a estimadores de máxima verosimilitud, se sabe que estos estimadores poseen ciertas propiedades, son consistentes, son asíntoticamente normales, es decir, que la sampling distribution de los estimadores comienzan a converger a una gaussiana lo cual nos permite calcular intervalos de confianza sobre los estimadores, se podría generar entonces un idc para los parámetros del modelo. Esto permite tener información acerca de la variabilidad de la estimación. Se pueden realizar test de hipótesis, para testear significancia por ejemplo.
 
 ### **Pregunta 8**
 
@@ -146,7 +155,9 @@ Explique porque el coeficiente $R^2$ tiende a crecer con el numero de variables.
 
 Un estudio de cáncer realizado por la institución X ha señalado que las personas que beben café poseen mayores probabilidades de padecer algún cáncer pulmonar.  El estudio causo un gran revuelo en la población, por lo que una segunda institución ha decidido replicar el experimento, llegando a la conclusión que las personas que toman café tienden a fumar cigarrillos mientras beben esta bebida. Señale que tipo de variable serían los fumadores de cigarrillos en el estudio de cáncer pulmonar y explique cual es la característica de estas variables.
 
-> En el primer estudio se aprecia la existencia de una correlación entre el consumo de café y el padecer un cáncer pulmonar, sin embargo el segundo estudio demuestra que si bien existe una correlación entre los fenómenos descritos esta no corresponde a una relación causal y que en realidad existe una tercera variable implicada, la cuál corresponde a ser fumador y explica la existencia de la correlación.
+> En el primer estudio se determinó la existencia de una correlación entre el consumo de café y el padecer un cáncer pulmonar, sin embargo, el segundo estudio demuestra que existe una correlación entre fumar cigarrillos y tomar café. De lo anterior se puede concluir que, si bien existe una correlación entre los tomar café y tener cáncer de púlmon, ésta no corresponde a una relación causal y, en realidad, existe una tercera variable implicada: fumar cigarrillos, es decir, la variable *fumar cigarrillos* generó una *confusión* entre las variables tomar café y tener cáncer pulmonar. 
+>
+> Lo anteriormente dicho se resume en que, inicialmente, se pensó que existía una correlación entre tomar café y tener cáncer de pulmonar, sin embargo, el primer estudio no consideró que podía existir una variable *confundiendo* la correlación entre tomar café y tener cáncer de pulmor. Dado que en el segundo estudio se mostró que hay una correlación entre tomar café y fumar cigarrillos, entonces se pudo notar que la variable fumar cigarrillos *confundía* a las otras dos variables: lo que ocurre realmente es que las personas fumadoras tienden a tomar más café y, como las personas fumadoras tiene más posibilidades de tener cáncer pulmonar, se pensó que tomar más café tiene una correlación con tener cáncer pulmonar (pero, como se mencionó anteriormente, la variable fumar cigarrillos estaba *confundiendo* la correlación, lo que realmente aumenta la probabilidad de tener cáncer pulmonar es fumar cigarrillos).
 
 ---
 
@@ -798,7 +809,7 @@ plots_no_bonfe <- plot_probs(500, 0.05, bonfe = TRUE)
 plot(plots_no_bonfe)
 ```
 
-Nótese que con la correción de Bonferroni se tiene que las probabilidades se mantenienen constantes respecto a la cantidad de test realizados. Por tanto, se tiene que la correción de Bonferroni mejora los resultados dado que ambas probabilidades ya no depende de la cantidad de experimentos y, en consecuencia, con la correción ya no se obtendrían resultados estadísticos significativos por mero azar.
+Nótese que con la correción de Bonferroni se tiene que las probabilidades se mantienen constantes respecto a la cantidad de test realizados. Por tanto, se tiene que la correción de Bonferroni mejora los resultados dado que ambas probabilidades ya no dependen de la cantidad de experimentos y, en consecuencia, con la correción ya no se obtendrían resultados estadísticos significativos por mero azar.
 ```{r}
 data <- read.csv("ratones.csv",sep= ";", stringsAsFactors = T)
 data
@@ -833,116 +844,159 @@ b) Estudie si el modelo multivariable posee mejor desempeño que el modelo simpl
 
 **Nota:** No esta permitido utilizar comandos que obtengan los valores solicitados directamente a menos que se le permita en la pregunta.
 
+
+
+Inicialmente, para construir la funcion `lm_reg` se crearon dos funciones auxiliares `get_vector_B` y `remove_name` que se utilizarán en la función `lm_reg` 
 ```{r}
+get_vector_B <- function(X, Y){
+  X <- cbind(rep(1, length(X[, 1])), X)
+  return(solve(t(X)%*%X)%*%t(X)%*%Y)
+}
 
-# PARTE I
+remove_name <- function(vec, name){
+  return(vec[! vec %in% c(name)])
+}
+```
 
-# Cargar Dataset
-library(readr)
-insurance <- read_csv("C:/Users/camil/Homeworks-CC6104/03/insurance.csv")
+Respecto a la función `lm_reg`, ésta toma como argumento un dataframe `X`, el nombre de la variable objetivo `y_name` y la cantidad de variables que considerará la regresión (por defecto, será una regresión líneal simple)
+```{r}
+lm_reg <- function(X, y_name, vars = 1){
+  nms <- remove_name(names(X), y_name)
+  
+  Y <- X[, y_name]
+  new_nms <- c()
+  
+  for(i in 1:vars){
+    max_cor <- 0
+    name_max_cor <- ""
+    k <- 0
+    k_max <- 0
+    for (j in nms){
+      k <- k + 1
+      X_cor <- X[, j]
+      current_cor <- cor(Y, X_cor)
+      if (max_cor < current_cor){
+        max_cor <- current_cor
+        name_max_cor <- j 
+        k_max <- k
+        }
+    }
+    new_nms <- append(new_nms, name_max_cor)
+    if( i == 1){
+      new_data = data.frame(name_max_cor=X[, name_max_cor])
+    }
+    else{
+        new_data[name_max_cor] = X[, name_max_cor]
+        }
+    nms <- remove_name(nms, name_max_cor)
+  }
+  names(new_data) <- new_nms
+  
+  matrix_data <- as.matrix(new_data)
+  b_vector <- get_vector_B(matrix_data, matrix(Y))
+  new_data$y = cbind(rep(1, length(matrix_data[, 1])), matrix_data)%*%b_vector
+  
+  return(list(data=new_data, beta=b_vector))
+}
+```
 
-insurance$smokers <- ifelse(insurance$smoker == 'yes', 1, 0)
+
+Finalmenete , se implementará la función `plot_reg` que permitirá graficar una regresión lineal simple.
+```{r}
+plot_reg <- function(data1, data2, x_name, type){
+  data1 <- data.frame(x=data1[, x_name], y = data1$charges)
+  data2 <- data.frame(x=data2[, x_name], y = data2$y)
+  ggplot() +
+    geom_point(
+      data=data1, 
+      aes(x=x, y=y, colour="Datos originales")) +
+    geom_line(
+      data = data2,
+      aes(x=x, y=y, colour="Regresión")) + 
+    guides(fill=guide_legend(title="")) + 
+    scale_colour_manual("", 
+                        breaks = c("Datos originales", "Regresión"),
+                        values = c("red", "black")) + 
+    labs(x=x_name, y="Charges", title=paste("Regresión lineal para dataset ", type))
+}
+```
+
+
+
+Con las funciones `lm_reg` y `plot_reg`, se procederá a leer el data set `insurance` y preparar dicho data set que crear las regresiones respectivas y sus plots.
+```{r}
+insurance <- read.csv("insurance.csv")
+
+# categorical to numeric
+sex_number <- c("female"=0, "male"=1)
+region_number <- c("southwest"=0, "southeast"=1, "northwest"=2, "northeast"=3)
+insurance$sex <- sex_number[insurance$sex]
+insurance$region <- region_number[insurance$region]
+
 #Separar dataset en fumadores y no fumadores
 #Fumadores
 df_f <- insurance[insurance$smoker == 'yes', ]
+df_f <- subset(df_f, select = c(-smoker))
+
 #No fumadores
-df_nof <- insurance[insurance$smoker == 'no', ]
-
-#Pasar variable categórica a variable dummy en una nueva columna llamada smokers
-#Fumador = 1, No fumador = 0
-df_f$smokers <- ifelse(df_f$smoker == 'yes', 1, 0)
-df_nof$smokers <- ifelse(df_nof$smoker == 'no', 0, 1)
-
-#Visualizar como quedan los datasets
-#view(df_f)
-#view(df_nof)
-
-# Ver correlación entre las variables numéricas y  la variable de interés charges
-# Para el dataset completo
-cor(insurance$age,insurance$charges)
-cor(insurance$bmi,insurance$charges)
-cor(insurance$children,insurance$charges)
-cor(insurance$smokers,insurance$charges)
-
-# Para el dataset de fumadores 
-cor(df_f$age,df_f$charges)
-cor(df_f$bmi,df_f$charges)
-cor(df_f$children,df_f$charges)
-cor(df_f$smokers,df_f$charges) # Posee desviación estándar 0
-# Para el dataset de no fumadores 
-cor(df_nof$age,df_nof$charges)
-cor(df_nof$bmi,df_nof$charges)
-cor(df_nof$children,df_nof$charges)
-cor(df_nof$smokers,df_nof$charges) # Posee desviación estándar 0
-
-# Para el dataser completo, la variable más correlacionada con charges corresponde a la variable smokers 
-# Para el dataset de fumadores la variable que está más correlacionada es la de bmi o índice de masa corporal
-# Para el dataset de no fumadores, la variable que está más correlacionada es la de age (edad)
+df_no_f <- insurance[insurance$smoker == 'no', ]
+df_no_f <- subset(df_no_f, select = c(-smoker))
+```
 
 
-# Se escoge la variable smokers, por ser la que posee la correlación más alta con la variable de interés en el dataset completo
-reg_simple <- lm(charges ~ smokers, data = insurance)
-reg_simple
-# Se escoge la variable bmi, por ser la que posee la correlación más alta con la variable de interés para el dataset de fumadores 
-reg_simple_f <- lm(charges ~ bmi, data = df_f)
-reg_simple_f
-# Se escoge la variable age, por ser la que posee la correlación más alta con la variable de interés para el dataset de no fumadores 
-reg_simple_nof <- lm(charges ~ age, data = df_nof)
-reg_simple_nof 
+Dado el data set arreglado que posee solo fumadores
+```{r}
+df_f_reg <- lm_reg(df_f, "charges")
+head(df_f_reg$data)
+```
 
 
-# Señale tanto el $R^2$ como el $R^2-adjustado$ del modelo.
-
-summary(reg_simple)
-summary(reg_simple_f)
-summary(reg_simple_nof)
-sum.reg_simple <- summary(reg_simple)
-sum.reg_simple$r.squared
-SSE1 <- sum(reg_simple$residuals^2)
-SST1 <- sum((insurance$smokers - mean(insurance$smokers))^2)
-SSM1 <- sum((reg_simple$fitted.values - mean(insurance$smokers))^2)
-SSM1/SST1
-1-SSE1/SST1
+```{r}
+plot_reg(df_f, df_f_reg$data, "bmi", "fumadores")
+```
 
 
-sum.reg_simple_f <- summary(reg_simple_f)
-sum.reg_simple_f$r.squared
-SSE2 <- sum(reg_simple_f$residuals^2)
-SST2 <- sum((df_f$bmi - mean(df_f$bmi))^2)
-SSM2 <- sum((reg_simple_f$fitted.values - mean(df_f$bmi))^2)
-SSM2/SST2
-1-SSE2/SST2
+```{r}
+df_no_f_reg <- lm_reg(df_no_f , "charges")
+head(df_no_f_reg$data)
+```
 
-sum.reg_simple_nof <- summary(reg_simple_nof)
-sum.reg_simple_nof$r.squared
-SSE3 <- sum(reg_simple_nof$residuals^2)
-SST3 <- sum((df_nof$age - mean(df_nof$age))^2)
-SSM3 <- sum((reg_simple_nof$fitted.values - mean(df_nof$age))^2)
-SSM3/SST3
-1-SSE3/SST3
 
-# Grafique el scatterplot de los datos y la linea que ajusta a la regresión lineal obtenida.
-
-attach(insurance)
-plot(insurance$smokers, insurance$charges, main="Scatterplot",
-   xlab="Smokers ", ylab="charges ", pch=19)
-abline(reg_simple, col = "orange", lwd = 3)
-
-attach(df_f)
-plot(df_f$bmi, df_f$charges, main="Scatterplot",
-   xlab="Índice de masa corporal ", ylab="charges ", pch=19)
-abline(reg_simple_f, col = "orange", lwd = 3)
-
-attach(df_nof)
-plot(df_nof$age, df_nof$charges, main="Scatterplot",
-   xlab="Age", ylab="charges ", pch=19)
-abline(reg_simple_nof, data = df_nof, col = "orange", lwd = 3)
-
-lm_reg <- function(X, Y){
-
-}
+```{r}
+plot_reg(df_no_f, df_no_f_reg$data, "age", "fumadores")
 ```
 ```{r}
+plot_reg(df_no_f, df_no_f_reg$data, "age", "fumadores")
+```
+
+
+```{r}
+calculate_R <- function(v1, v2, adjusted = FALSE, vars = 1){
+  y_bar <- mean(v1)
+  SST <- sum((v1 - y_bar)^2)
+  SSM <- sum((v2 - y_bar)^2)
+  R <- SSM/SST
+  if(adjusted){
+    n <- length(v1)
+    R <- 1 - (1 - R)*((n-1)/(n-vars-1))
+  }
+  return(R)
+}
+```
+
+
+$R^2$
+```{r}
+calculate_R(df_f$charges, df_f_reg$data$y)
+```
+$R^2$ ajustado
+```{r}
+calculate_R(df_f$charges, df_f_reg$data$y)
+```
+
+
+
+```{r, eval=FALSE}
 # PARTE II
 #Entrene un modelo lineal multivariable escogiendo dos variables numéricas que posean la mayor relación con `charges`.
 
