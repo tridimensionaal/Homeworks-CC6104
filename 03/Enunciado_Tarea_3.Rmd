@@ -103,14 +103,14 @@ $$\hat{N°\_de\_fanaticos\_del\_anime}=300+90*numero\_de\_semestres$$
 #### **Pregunta 3:**
 Considere un test con dos muestras *no* aparejado, explique porque se hace una corrección a los grados de libertad en el test de Welsh.
 
-> Porque s
+> Para un test con dos muestras *no* aparejado, el test de Welsh realiza una corrección a los grados de libertad ya que se intenta **normalizar** el tamaño de las muestras y su desviación estándar, es decir, el test de Welsh produce grados de libertad que dependen del tamaño y desviación estándar de las muestras. En particular, el test de Welsh
 
 
 #### **Pregunta 4:**
 
 Al realizar una regresión lineal simple con una variable categórica $(\beta_{0} + \beta_{1} \cdot \text{categroica})$  ¿que interpretación puede obtenerse del coeficiente que acompaña a la variable categórica?
 
-> En una regresión lineal simple el parámetro $beta_{1}$ corresponde a la pendiente de la recta y representa el cambio en y cuando variamos el valor de x. Mientras mayor sea la magnitud de este parámetro, más fuerte será la relación lineal. Si beta_{1} se parece a cero, entonces habrá una independencia lineal entre las variables, siendo la variable categórica x poco significativa para la variable de interés y. Dado que estamos considerando que x corresponde a una variable categórica, esta variable puede tomar un valor de un número limitado de valores, esto genera que el coeficiente ponderado por el valor de la categoría posea una relevancia diferente para Y dependiendo del valor asignado a la categoría. El coeficiente entonces tendrá una significancia diferente según pertenezca a una categoría o a otra.
+> En una regresión lineal simple el parámetro $\beta_{1}$ corresponde a la pendiente de la recta y representa el cambio en la variable $y$ cuando se varía el valor de la variable $x$. Mientras mayor sea la magnitud de $\beta_{1}$, mayor variación habrá en la variable $y$ al *cambiar* la variable $y$. Si $\beta_{1}$ es cercano a cero, entonces habrá una independencia lineal entre las variables, siendo la variable $x$ poco significativa para la variable de interés $y$. Dado que, en este caso, se está considerando que $x$ corresponde a una variable categórica, entonces esta variable puede tomar un valor de un número limitado de valores. Lo anteriormente mencionada genera que el coeficiente $\beta_{1}$ ponderado por el valor de la variable categoría posea una **relevancia** diferente para $y$ dependiendo del valor asignado a la categoría asociada a $x$. Por tanto. el coeficiente tendrá una significancia diferente según pertenezca a una categoría u otra.
 
 #### **Pregunta 5:**
 Discuta la siguiente frase:
@@ -124,7 +124,7 @@ Hacer una regresión lineal mediante máxima verosimilitud requiere tener cierta
 
 Explique porque el test de significancia sobre los parámetros de una regresión lineal se realiza bajo la hipótesis nula $\beta_{H_{0}}=0$.
 
-> Para el test de significancia se considera como hipótesis nula H0 el hecho de que los parámetros asociados a las variables independientes sean iguales a cero, esto es debido a que si son cercanos a cero, entonces no poseen significancia estadística e implica que existe una independencia lineal respecto de la variable de interés. Que sea cero significa que en la medida que existe una variación en x, esta no afectará el valor de y.
+> Para el test de significancia se considera como hipótesis nula H0 el hecho de que los parámetros asociados a las variables independientes sean iguales a cero, esto es debido a que si son cercanos a cero, entonces no poseen significancia estadística e implica que existe una independencia lineal respecto de la variable de interés. Que sea cero significa que en la medida que existe una variación en $x$, esta no afectará el valor de $$$$y$
 
 
 #### **Pregunta 7:**
@@ -142,13 +142,13 @@ $$
 $$
 Explique en que se diferencia con mínimos cuadrados, de una posible ventaja y desventaja de este método (en comparación a mínimos cuadrados).
 
-> Minimizar el error cuadrático es equivalente a maximizar la verosimilitud...
-
+>  Nótese que, generar una regresión lineal con mínimos cuadrados, permite penalizar de forma más *estricta* valores extremos (outliers), es decir, al realizar una regresión lineal con mínimos cuadradros, las curvas candidatas cercanas a los valores extremos tienden a tener errores cuadráticos grandes. En particular, matemáticamente se tiene que míminos cuadráticos penaliza de forma más severa diferencias mayores a 1 y le quita importancia a diferencias menores a 1. 
+>
+> Por el otro lado, la expresión dada penaliza de la misma forma todas las diferencias entre valor real ($y_{i}$) y valor predecido ($\hat{y_{i}} = \beta_{0} + \beta_{1}x_{i}$). En ese sentido, si se tiene un dataset con outliers, la curva generada con una regresión lineal utilizando la expresión dada se verá más afectada por los outliers (lo que, generalmente, no es correcto porque uno no quiere considerar tanto a los outliers). Sin embargo, si no existen outliers en los datos, entonces una regresión lineal permitiría generar una curva que consideró de *igual forma* todos los datos para su construcción (lo que se podría argumentar como algo *justo*).
 
 #### **Pregunta 9:**
 Explique porque el coeficiente $R^2$ tiende a crecer con el numero de variables.
-
-> Respuesta Aqui
+>
 
 
 #### **Pregunta 10**
@@ -845,8 +845,7 @@ b) Estudie si el modelo multivariable posee mejor desempeño que el modelo simpl
 **Nota:** No esta permitido utilizar comandos que obtengan los valores solicitados directamente a menos que se le permita en la pregunta.
 
 
-
-Inicialmente, para construir la funcion `lm_reg` se crearon dos funciones auxiliares `get_vector_B` y `remove_name` que se utilizarán en la función `lm_reg` 
+Inicialmente, para construir la funcion `lm_reg` se crearon dos funciones auxiliares `get_vector_B` y `remove_name` que se se utilizarán en la función `lm_reg` 
 ```{r}
 get_vector_B <- function(X, Y){
   X <- cbind(rep(1, length(X[, 1])), X)
@@ -857,6 +856,7 @@ remove_name <- function(vec, name){
   return(vec[! vec %in% c(name)])
 }
 ```
+
 
 Respecto a la función `lm_reg`, ésta toma como argumento un dataframe `X`, el nombre de la variable objetivo `y_name` y la cantidad de variables que considerará la regresión (por defecto, será una regresión líneal simple)
 ```{r}
@@ -922,8 +922,7 @@ plot_reg <- function(data1, data2, x_name, type){
 ```
 
 
-
-Con las funciones `lm_reg` y `plot_reg`, se procederá a leer el data set `insurance` y preparar dicho data set que crear las regresiones respectivas y sus plots.
+Con las funciones `lm_reg` y `plot_reg` implementadas, se procederá a leer el data set `insurance` y preparar dicho data set que crear las regresiones respectivas y sus plots.
 ```{r}
 insurance <- read.csv("insurance.csv")
 
@@ -934,6 +933,7 @@ insurance$sex <- sex_number[insurance$sex]
 insurance$region <- region_number[insurance$region]
 
 #Separar dataset en fumadores y no fumadores
+
 #Fumadores
 df_f <- insurance[insurance$smoker == 'yes', ]
 df_f <- subset(df_f, select = c(-smoker))
@@ -944,32 +944,33 @@ df_no_f <- subset(df_no_f, select = c(-smoker))
 ```
 
 
-Dado el data set arreglado que posee solo fumadores
+Dado el data set de fumadores, se creará una regresión lineal simple con `charges` como variable objetivo. Nótese que la función `lm_reg` escogerá entre las variables restantes la variable que mejor se relaciona con `charges` para realizar la regresión lineal con dicha variable.
 ```{r}
 df_f_reg <- lm_reg(df_f, "charges")
 head(df_f_reg$data)
 ```
 
 
+Del bloque de código anterior se puede notar que, para el dataset de fumadores, la función `lm_reg` escogió la variable `bmi` para realizar la regresión. El gráfico de la regresión lineal es el siguiente:
 ```{r}
 plot_reg(df_f, df_f_reg$data, "bmi", "fumadores")
 ```
 
 
+Respecto al dataset de los no fumadores, se repitió el procedimiento menconado.
 ```{r}
 df_no_f_reg <- lm_reg(df_no_f , "charges")
 head(df_no_f_reg$data)
 ```
 
 
-```{r}
-plot_reg(df_no_f, df_no_f_reg$data, "age", "fumadores")
-```
+En este caso, se puede nota que, para el dataset de no fumadores, la función `lm_reg` escogió la variable `age` para realizar la regresión. El gráfico de la regresión lineal es el siguiente:
 ```{r}
 plot_reg(df_no_f, df_no_f_reg$data, "age", "fumadores")
 ```
 
 
+Ahora, para calcular el $R^2$ y $R^2$ ajustado, la función `calculate_R` permite realizar dichas acciones.
 ```{r}
 calculate_R <- function(v1, v2, adjusted = FALSE, vars = 1){
   y_bar <- mean(v1)
@@ -985,39 +986,78 @@ calculate_R <- function(v1, v2, adjusted = FALSE, vars = 1){
 ```
 
 
-$R^2$
-```{r}
-calculate_R(df_f$charges, df_f_reg$data$y)
-```
-$R^2$ ajustado
+Para la regresión lineal simple para el dataset de fumadores, se tiene que el $R^2$ es el siguiente:
 ```{r}
 calculate_R(df_f$charges, df_f_reg$data$y)
 ```
 
 
-
-```{r, eval=FALSE}
-# PARTE II
-#Entrene un modelo lineal multivariable escogiendo dos variables numéricas que posean la mayor relación con `charges`.
-
-reg_mult <- lm(charges ~ smokers + age , data = insurance)
-reg_mult
-
-reg_mult_f <- lm(charges ~ bmi + age , data = df_f)
-reg_mult_f
-
-reg_mult_nof <- lm(charges ~ age + children , data = df_nof)
-reg_mult_nof
-#Estudie si el modelo multivariable posee mejor desempeño que el modelo simple y comente los resultados. ¿Es recomendable la utilización de los modelos creados para la predicción de nuevas entradas?. Para este análisis puede utilizar los valores de test de hipótesis entregados por el comando `lm()`, ya que esto le servirá para observar si la regresión lineal es significativa.
-
-summary(reg_mult)
-summary(reg_mult_f)
-summary(reg_mult_nof)
-
+Para el mismo dataset, el $R^2$ ajustado es el siguiente:
+```{r}
+calculate_R(df_f$charges, df_f_reg$data$y, adjusted = TRUE)
 ```
 
 
+En el otro caso, para la regresión lineal simple para el dataset de no fumadores, se tiene que el $R^2$ es el siguiente:
+```{r}
+calculate_R(df_no_f$charges, df_no_f_reg$data$y)
+```
 
+
+Asimismo, para el mismo dataset, el $R^2$ ajustado es el siguiente:
+```{r}
+calculate_R(df_no_f$charges, df_no_f_reg$data$y, adjusted = TRUE)
+```
+
+Ahora, dado el data set de fumadores, se creará una regresión lineal multivariada con `charges` como variable objetivo. En particular, se escogerán dos variables para realizar la regresión. Nótese que la función `lm_reg` escogerá entre las variables restantes la dos variable que mejor se relaciona con `charges` para realizar la regresión lineal multivariada con dicha variable.
+```{r}
+df_f_reg_2 <- lm_reg(df_f, "charges", 2)
+head(df_f_reg_2$data)
+```
+
+Del bloque de código anterior se puede notar que, para el dataset de fumadores, la función `lm_reg` escogió las variables `bmi` y `age` para realizar la regresión. 
+
+
+Respecto al dataset de los no fumadores, se repitió el procedimiento menconado.
+```{r}
+df_no_f_reg_2 <- lm_reg(df_no_f , "charges", 2)
+head(df_no_f_reg_2$data)
+```
+
+
+En este caso, se puede nota que, para el dataset de no fumadores, la función `lm_reg` escogió las variables `age`  y `children` para realizar la regresión.
+
+
+Ahora, para la regresión lineal multivariada para el dataset de fumadores, se tiene que el $R^2$ es el siguiente:
+```{r}
+calculate_R(df_f$charges, df_f_reg_2$data$y)
+```
+
+
+Para el mismo dataset, el $R^2$ ajustado es el siguiente:
+```{r}
+calculate_R(df_f$charges, df_f_reg_2$data$y, adjusted = TRUE, vars = 2)
+```
+
+
+En el otro caso, para la regresión lineal multivariada para el dataset de no fumadores, se tiene que el $R^2$ es el siguiente:
+```{r}
+calculate_R(df_no_f$charges, df_no_f_reg_2$data$y)
+```
+Para el mismo dataset, el $R^2$ ajustado es el siguiente:
+```{r}
+calculate_R(df_no_f$charges, df_no_f_reg_2$data$y, adjusted = TRUE, vars = 2)
+```
+
+Nótese que, para ambas datasets, la regresión lineal multivariada obtiene mejores valores tanto para el $R^2$ como para el $R^2$ ajustado. En particular, la diferencia de los valores del $R^2$ y el $R^2$ ajustado de la regresión lineal simple para el dataset no fumadores versus los valores del $R^2$ y el $R^2$ ajustado de la regresión lineal multivariada para el dataset no fumadores no es tan significativa. Sin embargo, para el dataset fumadores, la diferencia es más significativa.
+
+
+```{r}
+summary(lm(df_f$charges~df_f$bmi+df_f$age))
+```
+```{r}
+summary(lm(df_no_f$charges~df_no_f$age+df_no_f$children))
+```
 &nbsp;
 <hr />
 <p style="text-align: center;">A work by <a href="https://github.com/dccuchile/CC6104">CC6104</a></p>
