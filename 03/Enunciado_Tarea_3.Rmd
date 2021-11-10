@@ -97,7 +97,9 @@ $$\hat{N°\_de\_fanaticos\_del\_anime}=300+90*numero\_de\_semestres$$
 >
 > $300 + 90 \cdot 1= 390$, luego del segundo semestre habrán $300 + 90 \cdot 2 = 480$
 >
-> De esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán $300 + 90*12 = 1.380$ fanáticos del animé.
+> De esta manera, al final de la carrera (suponiendo una duración de 12 semestres) habrán $300 + 90\cdot 12 = 1.380$ fanáticos del animé.
+>
+> No siempre va a existir una interpretación coherente del intercepto y de la pendiente para cualquier modelo lineal, debido a que el intercepto indica el valor promedio de la variable de respuesta Y cuando X es cero, si la variable predictora X no puede asumir el valor 0, entonces la interpretación no tiene sentido, por lo que se debe tener cuidado con que X sea "número de semestres" ya que no existe el semestre 0, si no más bien se dió una interpretación ajustada mencionando que x = 0 se da cuando no ha pasado ningún semestre.
 
 
 #### **Pregunta 3:**
@@ -118,13 +120,14 @@ Discuta la siguiente frase:
 "
 Hacer una regresión lineal mediante máxima verosimilitud requiere tener ciertas hipótesis probabilisticas de los datos, mientras que una regresión realizada mediante mínimos cuadrados no necesita tener ninguna hipótesis probabilista.
 "
+
 > Si bien no se realiza ninguna hipótesis probabilística, cada vez que se realiza estimación por mínimos cuadrados, implícitamente se están asumiento todos los supuestos del modelo lineal probabilístico, estos son, linealidad, normalidad, independencia y homocedasticidad.
 
 #### **Pregunta 6:**
 
 Explique porque el test de significancia sobre los parámetros de una regresión lineal se realiza bajo la hipótesis nula $\beta_{H_{0}}=0$.
 
-> Para el test de significancia se considera como hipótesis nula H0 el hecho de que los parámetros asociados a las variables independientes sean iguales a cero, esto es debido a que si son cercanos a cero, entonces no poseen significancia estadística e implica que existe una independencia lineal respecto de la variable de interés. Que sea cero significa que en la medida que existe una variación en $x$, esta no afectará el valor de $$$$y$
+> Para el test de significancia se considera como hipótesis nula H0 el hecho de que los parámetros asociados a las variables independientes sean iguales a cero, esto es debido a que si son cercanos a cero, entonces no poseen significancia estadística e implica que existe una independencia lineal respecto de la variable de interés. Que sea cero significa que en la medida que existe una variación en $x$, esta no afectará el valor de $y$.
 
 
 #### **Pregunta 7:**
@@ -148,7 +151,22 @@ Explique en que se diferencia con mínimos cuadrados, de una posible ventaja y d
 
 #### **Pregunta 9:**
 Explique porque el coeficiente $R^2$ tiende a crecer con el numero de variables.
+
+> El coeficiente $R^2$ tiende a crecer con el número de variables explicativas consideradas en el modelo, ya que $R^2$ corresponde a una función no decreciente del número de variables exógenas o regresoras que están presentes en él. Además, $R^2$ mide la capacidad explicativa de la variable $x$ sobre la variable $y$ por lo que, al introducir en el modelo otra variable regresora, el nivel explicativo $R^2$ no disminuirá, ya que la primera variable continúa siendo explicativa. En ese sentido, ahora se tiene una mayor cantidad de variables explicativas y, por tanto, el valor de $R^2$ aumentará (o, en el peor de lo casos, se mantendrá el mismo valor para $R^22)
 >
+>Formalmente, se tiene que $R^{2}$ viene dado por:
+\[ R^2 = 1 - \frac{SSE}{SST} = 1 - \frac{\sum_{i}^{n} (\hat{y_{i}}-y_{i})^2}{\sum_{i}^{n} (y_{i}-\bar{y})^2} \]
+Nótese que $SST = \sum_{i}^{n} (y_{i}-\bar{y})^2$ es un valor constante para los datos y $SSE = \sum_{i}^{n} (\hat{y_{i}}-y_{i})^2$ depende de el modelo. En particular, para el modelo de regresión líneal simple se tiene
+\[ SSE = \sum_{i}^{n} (\beta_{0} + \beta_{1}x1_{i} - y_{i})^2 \]
+Definiendo $\beta_{0} + \beta_{1}x1_{i} - y_{i} = e_{i}$ se tiene:
+\[ SSE = \sum_{i}^{n} e_{i}^2 \]
+Ahora, para el modelo lineal multivariado con dos variables se tiene que:
+\[ SSE = \sum_{i}^{n} (\beta_{0} + \beta_{1}x1_{i} + \beta_{2}x2_{i} - y_{i}) \]
+Reemplazando con $e_{i}$ se tiene que:
+\[ SSE = \sum_{i}^{n} (e_{i} + \beta_{2}x2_{i})^2 \]
+Dado que se agrega una variable $x2_{i}$ con el propósito de *ajustar* el modelo, se tiene que $|e_{i} + \beta_{2}x2_{i}| \leq |e_{i}|$ (porque sino, no tendría sentido haber agregado la variable $x2_{i}$ al valor de la predicción). Por tanto, se tiene que el valor $SSE$ para un modelo lineal simple es mayor que el valor $SSE$ para el mismo modelo ajustado con dos variables. En consecuencia, dada la fórmula $R^2 = 1 - \frac{SSE}{SST}$, se tiene que el valor $R^2$ se mantiene o aumenta al agregar una variable más al modelo.
+
+
 
 
 #### **Pregunta 10**
@@ -661,15 +679,18 @@ En particular, para el test donde la hipótesis nula es $H_{0}: \mu_{Graduation}
 p_value_grad_master <- p_values[1]
 p_value_grad_master
 ```
+
+
 Del mismo modo, el p valor corregido para dicho test es:
 ```{r}
 p_value_grad_master*2
 ```
 
-Así, dado el test a $5\%$, se tiene que no existe evidencia estadística para rechazar la hipótesis nula, es decir, el ingreso entre las personas con el grado académico `Graduation` y las personas con el grado académico `Master` es cercano a 0.
+
+Así, dado el test a $5\%$, se tiene que no existe evidencia estadística para rechazar la hipótesis nula, es decir, la diferencia de ingresos entre las personas con el grado académico `Graduation` y las personas con el grado académico `Master` es cercana a 0.
 
 
-Por el otro lado, para el test donde la hipótesis nula es $H_{0}: \mu_{Graduation} - \mu_{PhD} = 0 $ y la hipótesis alternativa es $H_{1}: \mu_{Graduation} \neq \mu_{PhD}$, se tiene el siguiente p valor.
+Por el otro lado, para el test donde la hipótesis nula es $H_{0}: \mu_{Graduation} - \mu_{PhD} = 0$ y la hipótesis alternativa es $H_{1}: \mu_{Graduation} \neq \mu_{PhD}$, se tiene el siguiente p valor.
 ```{r}
 p_value_grad_phd<- p_values[2]
 p_value_grad_phd
@@ -680,7 +701,7 @@ Del mismo modo, el p valor corregido para dicho test es:
 p_value_grad_phd*2
 ```
 
-Así, dado el test a $5\%$, se tiene que existe evidencia estadística para rechazar la hipótesis nula, es decir, el ingreso entre las personas con el grado académico `Graduation` y las personas con el grado académico `Master` no es cercano a 0, es decir, existe una diferencia **estadísticamente significativa** entre el ingreso de las personas con el grado académico `Graduation` y las personas con el grado académico `Master`.
+Así, dado el test a $5\%$, se tiene que existe evidencia estadística para rechazar la hipótesis nula, es decir, la diferencia de ingresos entre las personas con el grado académico `Graduation` y las personas con el grado académico `PhD` no es cercana a 0, es decir, existe una diferencia **estadísticamente significativa** entre el ingreso de las personas con el grado académico `Graduation` y las personas con el grado académico `PhD`.
 
 
 ### Pregunta 3: Testeando multiples hipotesis y Bonferroni Correction
@@ -810,10 +831,28 @@ plot(plots_no_bonfe)
 ```
 
 Nótese que con la correción de Bonferroni se tiene que las probabilidades se mantienen constantes respecto a la cantidad de test realizados. Por tanto, se tiene que la correción de Bonferroni mejora los resultados dado que ambas probabilidades ya no dependen de la cantidad de experimentos y, en consecuencia, con la correción ya no se obtendrían resultados estadísticos significativos por mero azar.
+
+Respecto al dataset `ratones.csv` se tiene la siguiente estructura:
 ```{r}
-data <- read.csv("ratones.csv",sep= ";", stringsAsFactors = T)
-data
+ratones <- read.csv("ratones.csv",sep= ";")
+head(ratones)
 ```
+
+Inicialmente, los siguientes grupos de ratones obtuvieron un p valor menor a $0.05$
+```{r}
+ratones_no_bonfe <- ratones[ratones$p.value < "0,05", ]
+ratones_no_bonfe
+```
+
+
+Nótese que, orginalmente, se tienen 8 grupos de ratones con p valores menores que $0.05$. Sin embargo, con la corrección de bonferroni, existen mucho grupos de ratones que aumentaron su p valor por un umbral mayor que $0.05$. En particular, los siguientes grupos de ratones son los únicos que obtuvieron un p valor corregido menor que $0.05$
+```{r}
+ratones_bonfe <- ratones[ratones$p.value.Bonferroni < "0,05", ]
+ratones_bonfe 
+```
+
+Es decir, de los 8 grupos originales de ratones que obtuvieron experimentos exitosos, solo un 2 grupos se mantuvieron como exitosos luego de la correción de bonferroni, es decir, solo el $25 \%$ del total de exitosos se mantuvo luego de la correción. 
+
 
 ---
 
@@ -1009,6 +1048,7 @@ Asimismo, para el mismo dataset, el $R^2$ ajustado es el siguiente:
 calculate_R(df_no_f$charges, df_no_f_reg$data$y, adjusted = TRUE)
 ```
 
+
 Ahora, dado el data set de fumadores, se creará una regresión lineal multivariada con `charges` como variable objetivo. En particular, se escogerán dos variables para realizar la regresión. Nótese que la función `lm_reg` escogerá entre las variables restantes la dos variable que mejor se relaciona con `charges` para realizar la regresión lineal multivariada con dicha variable.
 ```{r}
 df_f_reg_2 <- lm_reg(df_f, "charges", 2)
@@ -1044,6 +1084,8 @@ En el otro caso, para la regresión lineal multivariada para el dataset de no fu
 ```{r}
 calculate_R(df_no_f$charges, df_no_f_reg_2$data$y)
 ```
+
+
 Para el mismo dataset, el $R^2$ ajustado es el siguiente:
 ```{r}
 calculate_R(df_no_f$charges, df_no_f_reg_2$data$y, adjusted = TRUE, vars = 2)
@@ -1052,12 +1094,31 @@ calculate_R(df_no_f$charges, df_no_f_reg_2$data$y, adjusted = TRUE, vars = 2)
 Nótese que, para ambas datasets, la regresión lineal multivariada obtiene mejores valores tanto para el $R^2$ como para el $R^2$ ajustado. En particular, la diferencia de los valores del $R^2$ y el $R^2$ ajustado de la regresión lineal simple para el dataset no fumadores versus los valores del $R^2$ y el $R^2$ ajustado de la regresión lineal multivariada para el dataset no fumadores no es tan significativa. Sin embargo, para el dataset fumadores, la diferencia es más significativa.
 
 
+Respecto a los p valores para el dataset de fumadores, tanto para la regresión lineal simple como para la regresion lineal multivariada se tiene lo siguiente:
+```{r}
+summary(lm(df_f$charges~df_f$bmi))
+```
+
+
+```{r}
+summary(lm(df_no_f$charges~df_no_f$age))
+```
+
+Para ambas regresiones se puede observar que, el p valor es menor que 0.05 y, por lo tanto, se rechaza la hipótesis nula de que los coeficientes asociados a las variables regresoras sean iguales a cero o no significativas. En particular, se aprecia tanto en la regresión lineal simple, que considera el índice de masa corporal como variable explicativa, como en la regresión lineal multivariada que considera como variables regresoras al índice de masa corporal y a la edad. Los asteriscos también indican significancia estadísitica por parte de esas variables.
+
+Por el otro lado, respecto a los p valores para el dataset de fumadores, tanto para la regresión lineal simple como para la regresion lineal multivariada se tiene lo siguiente:
 ```{r}
 summary(lm(df_f$charges~df_f$bmi+df_f$age))
 ```
+
+
 ```{r}
 summary(lm(df_no_f$charges~df_no_f$age+df_no_f$children))
 ```
+
+
+Para ambas regresiones se puede observar que, el p valor es menor que 0.05 y, por tanto, se se rechaza la hipótesis nula de que los coeficientes asociados a las variables regresoras sean iguales a cero o no significativas. En particular, se aprecia tanto  tanto en la regresión lineal simple, que considera la edad, como en la regresión multivariada donde las variables regresoras son edad y cantidad de hijos. Nuevamente, los asteriscos también indican significancia estadísitica por parte de esas variables.
+
 &nbsp;
 <hr />
 <p style="text-align: center;">A work by <a href="https://github.com/dccuchile/CC6104">CC6104</a></p>
