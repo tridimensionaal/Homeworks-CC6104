@@ -603,18 +603,19 @@ Usted sabe un dato extra sobre la información, los valores de $\sigma$ en la gr
 - [ ] Modifique el siguiente código que permite realizar una grid approximation para $2$ parámetros. Proponga priors para $\mu$ y $\sigma$, justifique su elección.
 
 
-```r
+```{r}
 # Leer información
 data_notas <- read.csv("notas.csv")
+grid_size <- 100
 
 # Función para crear likelihood dado mu y sigma
 grid_function <- function(mu,sigma){
-   .... # Funcion de likelihood
+  dnorm(mean(data_notas$Notas), mean = mu, sd = sigma)
 }
 
 # Valores de la grilla
-grid_mu <- ...
-grid_sigma <- ...
+grid_mu <- seq(from=1 , to=7 , length.out=grid_size)
+grid_sigma <- seq(from=0.5, to=1.5, length.out=grid_size)
 
 # Se crea la grilla 2d
 data_grid <- expand_grid(grid_mu,grid_sigma)
@@ -625,16 +626,15 @@ data_grid$likelihood <- map2(data_grid$grid_mu,data_grid$grid_sigma, grid_functi
 # Se transforma el forma de map2 a una columna
 data_grid <- unnest(data_grid,cols = c("likelihood"))
 
-
 # Valores de los priors
-prior_mu <- ...
-prior_sigma <-  ...
+prior_mu <- rep(1 , grid_size)
+prior_sigma <- append(rep(2, grid_size/2), rep(1, grid_size/2)) 
 
 # Se crea la grilla 2d de priors
-prior <- expand_grid(prior_mu,prior_sigma)
+prior <- expand_grid(prior_mu, prior_sigma)
 
 # Se calculan los valores del prior
-data_grid$prior <-  map2(prior$prior_mu,prior$prior_sigma, prod)
+data_grid$prior <-  map2(prior$prior_mu, prior$prior_sigma, prod)
 data_grid <- unnest(data_grid,cols = c("prior"))
 
 # Se calcula el posterior
@@ -651,7 +651,7 @@ data_grid$posterior <- (data_grid$posterior - min(data_grid$posterior))/(max(dat
 - [ ] Tras haber ejecutado el código de la parte anterior ejecute el siguiente, ¿Que puede decir de los valores de la distribución? Se recomienda hacer modificaciones en el código para realizar un mejor análisis y estudio.
 
 
-```r
+```{r}
 # Punto de referencia
 # Se recomienda cambiar estos valores por unos adecuados que le permitan estudiar
 # Los valores de la distribución de mejor manera
@@ -690,7 +690,7 @@ plt
 - [ ] A continuación se presenta un código que permite realizara la distribución dada por sampling from grid approximation ¿Para que sirve este proceso? ¿Que puede deducir del gráfico?
 
 
-```r
+```{r}
 # Codificamos los datos
 x <- 1:length(data_grid$posterior)
 
@@ -707,7 +707,9 @@ df <- data.frame(posterior_samples$grid_mu,posterior_samples$grid_sigma)
 dens(df)
 ```
 
-> Respuesta Aqui
+> 1 - Al visualizar el gráfico, puede decirse de los valores de la distribución que se encuentran concentrados en torno al 6 debido al color amarillo que se aprecia en la zona. El color va paulatinamente dispersándose hacia arriba, lo cual indica la desviación estándar de la media de las notas. Al realizar modificaciones se puede notar que se va desplazando la zona en torno a la cual se concentran aquellos valores para la media y la desviación estándar.
+2- Este proceso de obtener muestras a partir de la grid aproximation permite obtener la posterior, con el objetivo de poder encontrar las distribuciones de la media y de la desviación estándar de las notas.
+
 
 
 &nbsp;
