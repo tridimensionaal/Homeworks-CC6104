@@ -156,7 +156,7 @@ En la siguiente sección deberá resolver cada uno de los experimentos computaci
 
 Para el desarrollo preste mucha atención en los enunciados, ya que se le solicitará la implementación de métodos sin uso de funciones predefinidas. Por otro lado, Las librerías permitidas para desarrollar de la tarea 4 son las siguientes:
 
-```{r, eval=FALSE}
+```{r}
 # Manipulación de estructuras
 library(tidyverse)
 library(dplyr)
@@ -332,7 +332,7 @@ Ahora, dada la función *grid_aprox*, se graficaron las curvas posteriores para 
 plots_aprox(dataMoneda$Resultado, grid_aprox)
 ```
 
-Nótese que, mientras mayor la cantidad de experimentos, la distribución tiende al valor de probabilidad asociada a los datos, es decir, se tiene que las distribuciones con mayores números de experimentos se comportan similar a una distribución normal con $\mu$ la probabilidad de obtener cara en dado los datos y valores pequeños para $\sigma$.
+Nótese que, mientras mayor la cantidad de experimentos, la distribución tiende al valor de probabilidad asociada a los datos, es decir, se tiene que las distribuciones con mayores números de experimentos se comportan similar a una distribución normal con $\mu$ la probabilidad de obtener cara dado los datos y valores pequeños para $\sigma$.
 
 
 Con la función `laplace_aprox` se repitió el procedimento que se realizó para el caso de la grid approximation.
@@ -360,7 +360,7 @@ plots_aprox(dataMoneda$Resultado, laplace_aprox, plot_p=FALSE)
 ```
 
 
-Del mismo modo que para el caso de la grid approximation, se tiene que, mientras mayor la cantidad de experimentos, la distribución tiende al valor de probabilidad asociada a los datos, es decir, se tiene que las distribuciones con mayores números de experimentos se comportan similar a una distribución normal con $\mu$ la probabilidad de obtener cara en dado los datos y valores pequeños para $\sigma$.
+Del mismo modo que para el caso de la grid approximation, se tiene que, mientras mayor la cantidad de experimentos, la distribución tiende al valor de probabilidad asociada a los datos, es decir, se tiene que las distribuciones con mayores números de experimentos se comportan similar a una distribución normal con $\mu$ la probabilidad de obtener cara dado los datos y valores pequeños para $\sigma$.
 
 Para graficar la densidad de la posterior se tiene el siguiente bloque de cídigo.
 ```{r}
@@ -393,7 +393,7 @@ bounds(dataMoneda$Resultado, 0.7, 1)
 ```
 
 
-Nótese que tanto para el intervalo $[0, 0.4]$ y $[0.7, 1]$ la proporción calculada es $0$. Lo anterior tiene sentido con el gráfico de densidad de la posterior ya que, como se observa en el gráfico, los datos están netamente concentrados en una pequeña vecindad cercana al valor $0.56$, es decir, el área total bajo la curva se encuentra, aproximadamente, entre los valores $0.51$ y $0.60$.
+Nótese que tanto para el intervalo $[0, 0.4]$ como para el intervalo $[0.7, 1]$ la proporción calculada es $0$. Lo anterior tiene sentido con el gráfico de densidad de la posterior ya que, como se observa en el gráfico, los datos están netamente concentrados en una pequeña vecindad cercana al valor $0.56$, es decir, el área total bajo la curva se encuentra, aproximadamente, entre los valores $0.51$ y $0.60$.
 
 
 Ahora, para el cálculo de los intervalos de credibilidad se tiene lo siguiente:
@@ -427,7 +427,11 @@ hdpi(dataMoneda$Resultado, 0.75)
 hdpi(dataMoneda$Resultado, 0.95)
 ```
 
-Respecto a los intervalos de credibilidad, un problema de ocupar dichos intervalos es que, para distribuciones poco simétricas, no son óptimos porque son simétrico respecto a su centro, el peso *de cada lado* es equivalente. En ese sentido, los intervalos HDPI sirven para distribuciones no simétricas.
+Respecto a los intervalos de credibilidad, un problema de ocupar dichos intervalos es que, para distribuciones poco simétricas, no son óptimos porque son simétrico respecto a su centro, es decir, el peso *de cada lado* es equivalente. En ese sentido, los intervalos HDPI sirven para tanto para distribuciones simétricas como no simétricas. 
+
+En el caso para el dataset de experimentos de lanzar una moneda, la diferencia entre los intervaos de credibilidad y los intervalos HDPI es pequeña, es decir, para consultas del mismo intervalo se obtiene resultados similares. Lo anterior tiene sentido ya que, al observar el gráfico de densidad asociado a dicho dataset, se evidencia una curva bastante simétrica y, por tanto, ambos intervalos funcionan correctamente.
+
+De todas formas, como la curva de densidad no es exactamente simétrica, existen pequeñas diferencias en los dos tipos de intervalos utilizados (pero diferencia poco significativas).
 
 
 ---
@@ -438,7 +442,7 @@ El objetivo de esta pregunta es comprender el concepto de `sample prediction` vi
 
 Un conjunto de carteros aburridos de las mordidas de perros ha decidido realizar un catastro de mordidas recibidas por los empleados de su empresa en un periodo de dos meses, planeando en base a estos datos realizar inferencia bayesiana. Los datos de las mordidas estas datos por el dataset `no+mordidas.csv`, en donde cada fila representa las mordidas recibidas por diferentes carteros y las columnas señalan si fue mordido o no el cartero en los meses de estudio (notar que si fue mordido sera señalado con un 1, de lo contrario es señalado con un 0). Cabe señalar que un cartero no puede ser mordido mas de una vez al mes, ya que el damnificado recibe licencia por todos los días restantes del mes tras la mordida, reincorporándose el siguiente mes al trabajo.
 
-```{r, eval=FALSE}
+```{r}
 df = read.csv("no+mordidas.csv")
 head(df)
 ```
@@ -531,7 +535,7 @@ plot_his(y_binom_samples, title)
 ```
 
 
-Respecto al último histrograma, nótese que el modelo se ajusta bien a los datos ya que la distribución de las predicciones incluye la observación real como resultado central y probable. Se puede observar que el valor MAP calculado sobre la grid approximation es central en los histogramas calculados.
+Nótese que el modelo se ajusta bien a los datos ya que la distribución de las predicciones incluye la observación real como resultado central y probable. Se puede observar que el valor MAP calculado sobre la grid approximation es central en los histogramas calculados y es de los valores *mas probables*. Del mismo modo, la forma (distribución) del histograma es similar a la distribución asociada a la curva de densidad. Sin embargo, la curva de densidad está más centrada sobre el MAP, es decir, en la curva de densidad solo valores muy cercanos al MAP tienen probabilidad significativa. En cambio, el histograma le da un rango más amplio y probable al valor de la probabilidad. Lo anteriormente mencionado es bueno ya que permite no centrar los resultados y el análisis en un dataset en particular sino que permite, dada el dataset, generar resultados más generales y tener conclusiones más abiertas sobre la probabilidad (lo cual desde un enfoque bayesiano es correcto ya que la probabilidad no en un valor en sí mismo)
 
 Ahora, para el caso de los cartores mordidos los dos meses, el siguiente bloque de código calcula la cantidad de dichos carteros.
 ```{r}
@@ -566,11 +570,14 @@ max_p
 ```
 
 
+Utilizando solo en valor MAP se obtuvo el siguiente histograma.
 ```{r}
 y_binom_map <- rbinom(1e5, size=500, prob=max_p)
 plot_his(y_binom_map, "Histograma nuevas predicciones utilizando MAP")
 ```
 
+
+Por el otro lado, utilizando la distribución posterior se obtuvo el siguiente histograma.
 ```{r}
 samples <- sample(x, prob=y, size=1e4, replace=TRUE)
 y_binom_samples <- rbinom(1e5, size=500, prob=samples)
@@ -580,7 +587,8 @@ de la variable p (probabilidad de que un cartero sea mordido)"
 plot_his(y_binom_samples, title)
 ```
 
-Respecto al último histrograma, nótese que el modelo se ajusta bien a los datos ya que la distribución de las predicciones incluye la observación real como resultado central y probable. Se puede observar que el valor MAP calculado sobre la grid approximation es central en los histogramas calculados.
+
+Respecto a la curva de densidad y los histogramas, las conclusiones son similares para cuando se juntó los datos de mordidas del primer y segundo mes. En primer lugar, el modelo se ajusta bien a los datos ya que la distribución de las predicciones incluye la observación real como resultado central y probable. Se puede observar que el valor MAP calculado sobre la grid approximation es central en los histogramas calculados y es de los valores *mas probables*. Del mismo modo, la forma (distribución) del histograma es similar a la distribución asociada a la curva de densidad. Sin embargo, la curva de densidad está más centrada sobre el MAP, es decir, en la curva de densidad solo valores muy cercanos al MAP tienen probabilidad significativa. En cambio, el histograma le da un rango más amplio y probable al valor de la probabilidad. Lo anteriormente mencionado es bueno ya que permite no centrar los resultados y el análisis en un dataset en particular sino que permite, dada el dataset, generar resultados más generales y tener conclusiones más abiertas sobre la probabilidad (lo cual desde un enfoque bayesiano es correcto ya que la probabilidad no en un valor en sí mismo)
 
 
 ---
