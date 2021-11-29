@@ -11,8 +11,8 @@ output:
 <center><strong>CC6104: Statistical Thinking</strong></center>
 #### **Integrantes :** 
 
-- Alumno 1
-- Alumno 2
+- Alumno 1: Camila Bergasa
+- Alumno 2: Matías Seda
 
 #### **Cuerpo Docente:**
 
@@ -75,25 +75,31 @@ A continuación, se presentaran diferentes preguntas que abordan las temáticas 
 
 Explique cual es la diferencia fundamental entre la estadística bayesiana y frecuentista.
 
-> Respuesta Aquí
+> > El enfoque frecuentista requiere que todas las probabilidades sean definidas con respecto a frecuencias límite, es decir, sobre grandes muestras. En el enfoque frecuentista se trata como variable aleatoria sólo a cosas que se puedan medir. Los parámetros y modelos no pueden tener distribuciones de probabilidad, sólo las cosas medibles pueden tener una distribución de probabilidad. La distribución de estas medidas corresponde a la sampling distribution y sobre ella se puede realizar inferencia desde el punto de vista de la incertidumbre. Sin embargo, en la práctica casi siempre se trabaja con sólo una muestra.
+
+> La escuela bayesiana dice que en realidad una probabilidad es una creencia, que puede estar basado en una creencia como también en alguna percepción subjetiva, es por este motivo que en el enfoque bayesiano se relaja el supuesto de probabilidad por lo que es posible tratar a cosas no medibles como variables aleatorias. En el enfoque bayesiano se tiene una creencia inicial acerca de un parámetro, se obtienen datos en torno al parámetro, y en base a esa evidencia obtenida es posible actualizar la creencia inicial. El análisis de datos bayesianos no es más que contar los números en las formas en las que la data podría haber ocurrido de acuerdo a nuestros supuestos.
 
 #### **Pregunta 2:**
 
 Discuta la siguiente afirmación **La inferencia bayesiana permite fácilmente utilizar distintos tipos de información**.
 
-> Respuesta Aqui
+> > La frase hace referencia a que a veces la información prior y los datos pueden ser de una naturaleza distinta. La información prior puede venir de un conocimiento que se codifica como un conteo compatible con los datos y puede ser actualizado de la misma forma, combinando el conocimiento prior subjetivo con los datos.
 
 #### **Pregunta 3:**
 
 Explique la diferencia entre **prior probability** y **posterior probability**
 
-> Respuesta Aquí
+> La Prior probability corresponde al conocimiento a priori, a la creencia inicial que se tiene acerca de los datos. Es posible mirar los datos y actualizar aquel conocimiento a priori. La posterior probability corresponde a la data actualizada de una conjetura y establece el número relativo de formas en las que casa conjetura a partir de la data pudo haber prodicido los datos observados.
 
 #### **Pregunta 4:**
 
 El estadista bayesiano "Bruno Finetti" menciona la siguiente frase en su libro de probabilidad:  **La probabilidad no existe**. Lo que en verdad quizo decir es que la probabilidad es un método para describir incertidumbre en un observador con conocimiento limitado. Discuta esta información utilizando el ejemplo del lanzamiento del globo terraqueo visto en clases. ¿Que significa decir "la probabilidad de que sea agua es 0.7"?
 
-> Respuesta Aquí
+> La frase se refiere a que la probabilidad objetiva como tal no existe, puesto que en el caso descrito en clases del globo terráqueo, la probabilidad se trata de una sensación psicológica de un observador con conocimiento limitado, ya que opera directamente sobre el grado psicológico de confianza de un individuo respecto a una cierta suposición. 
+
+> Ejemplo globo terráqueo
+
+> Decir que la probabilidad de que sea agua es 0.7 significa que ..-
 
 
 #### **Pregunta 5:**
@@ -108,14 +114,16 @@ Señale y explique los pasos de la *grid approximation* para obtener la posterio
 a. ¿Cual de los pasos señalados nos permite obtener una distribución de la posterior mas precisa?.
 b. Cuales son las limitaciones de la *grid approximation*.
 
-> Respuesta Aquí
+> Pasos de la Grid Aproximation: En primer lugar se debe definir la grilla, esto significa que debe decidirse cuantos puntos usar para estimar la posterior y luego se realiza una lista de los valores de los parámetros en la grilla. En segundo lugar, se computan los valores del prior para cada valor del parámetro en la grilla. Luego se obtiene la likelihood en cada valor de los parámetros. Despues se procede a computar la posterior no estandarizada para cada valor del parámetro, multiplicando el prior por la verosimilitud. Finalmente se debe estandarizar la posterior, dividiendo cada valor por la suma de todos los valores.
+> a. ...
+> b. Una de las limitaciones de la grid aproximation es que escala realmente mal a medida que se aumenta el número de parámetros.
 
 
 #### **Pregunta 7:**
 
 ¿ Por qué es necesario aprender a trabajar con muestras de la posterior?.
 
-> Respuesta Aquí
+> Es necesario aprender a trabajar con muestras de la posterior, ya que lo que se quiere hacer es un análisis general. Cuando se procede a realizar el cálculo de una posterior se ocupa solo un dataset, dado ese dataset uno genera una posterior a partir de él. Sin embargo, como lo que se busca es realizar un análisis general hacer samples de la posterior nos va a permitir obtener una distribución. 
 
 
 #### **Pregunta 8:**
