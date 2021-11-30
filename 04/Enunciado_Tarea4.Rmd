@@ -75,14 +75,14 @@ A continuación, se presentaran diferentes preguntas que abordan las temáticas 
 
 Explique cual es la diferencia fundamental entre la estadística bayesiana y frecuentista.
 
-> > El enfoque frecuentista requiere que todas las probabilidades sean definidas con respecto a frecuencias límite, es decir, sobre grandes muestras. Por tanto, en el enfoque frecuentista se trata como variable aleatoria sólo a cosas que se puedan medir. Los parámetros y modelos no pueden tener distribuciones de probabilidad, solamente los *objetos medibles* pueden tener una distribución de probabilidad. La distribución de estas medidas corresponde a la sampling distribution y sobre ella se puede realizar inferencia desde el punto de vista de la incertidumbre. Sin embargo, en la práctica casi siempre se trabaja con sólo una muestra.
+> El enfoque frecuentista requiere que todas las probabilidades sean definidas con respecto a frecuencias límite, es decir, sobre grandes muestras. Por tanto, en el enfoque frecuentista se trata como variable aleatoria sólo a cosas que se puedan medir. Los parámetros y modelos no pueden tener distribuciones de probabilidad, solamente los *objetos medibles* pueden tener una distribución de probabilidad. La distribución de estas medidas corresponde a la sampling distribution y sobre ella se puede realizar inferencia desde el punto de vista de la incertidumbre. Sin embargo, en la práctica casi siempre se trabaja con sólo una muestra.
 > La escuela bayesiana plantear que, en realidad, una probabilidad es una creencia que puede estar basada en un supuesto como también en alguna percepción subjetiva. Por este motivo, en el enfoque bayesiano se *relaja* el supuesto de probabilidad por lo que es posible tratar a cosas no medibles como variables aleatorias. En el enfoque bayesiano se tiene una creencia inicial acerca de un parámetro, se obtienen datos en torno al parámetro, y en base a esa evidencia obtenida es posible actualizar la creencia inicial. El análisis de datos bayesianos no es más que contar los números en las formas en las que la data podría haber ocurrido de acuerdo a nuestros supuestos.
 
 #### **Pregunta 2:**
 
 Discuta la siguiente afirmación **La inferencia bayesiana permite fácilmente utilizar distintos tipos de información**.
 
-> > La frase hace referencia a que a veces la información prior y los datos pueden ser de una naturaleza distinta. La información prior puede venir de un conocimiento que se codifica como un conteo compatible con los datos y puede ser actualizado de la misma forma, combinando el conocimiento prior subjetivo con los datos.
+> La frase hace referencia a que a veces la información prior y los datos pueden ser de una naturaleza distinta. La información prior puede venir de un conocimiento que se codifica como un conteo compatible con los datos y puede ser actualizado de la misma forma, combinando el conocimiento prior subjetivo con los datos.
 
 #### **Pregunta 3:**
 
@@ -94,7 +94,9 @@ Explique la diferencia entre **prior probability** y **posterior probability**
 
 El estadista bayesiano "Bruno Finetti" menciona la siguiente frase en su libro de probabilidad:  **La probabilidad no existe**. Lo que en verdad quizo decir es que la probabilidad es un método para describir incertidumbre en un observador con conocimiento limitado. Discuta esta información utilizando el ejemplo del lanzamiento del globo terraqueo visto en clases. ¿Que significa decir "la probabilidad de que sea agua es 0.7"?
 
-> La frase se refiere a que la probabilidad objetiva como tal no existe, puesto que en el caso descrito en clases del globo terráqueo, la probabilidad se trata de una sensación psicológica de un observador con conocimiento limitado, ya que opera directamente sobre el grado psicológico de confianza de un individuo respecto a una cierta suposición. 
+> La frase se refiere a que la probabilidad objetiva como tal no existe, puesto que, según el enfoque bayesiano, una probabilidad respecto a algún fenómeno no es un valor puntual sino es una distribución generada a través de información a priori (supuestos sobre la distribución de los datos) e información empírica (un conjunto específico de datos obtenidos a través de un experimento). Respecto al ejemplo del globo terráqueo visto en clases, se tiene que decir que *la probabilidad de que sea agua es 0.7* se refiere a que, dado los experimentos realizados, es decir, dado los datos, el valor *mas probable* para la proporción de agua con respecto al total de superficie de la tierra es $0.7$. Sin embargo, dicha proporción es desconocida y, por tanto, el valor $0.7$ es solo el valor *mas probable* en una distribución de valores. 
+
+la probabilidad se trata de una sensación psicológica de un observador con conocimiento limitado, ya que opera directamente sobre el grado psicológico de confianza de un individuo respecto a una cierta suposición. 
 Ejemplo globo terráqueo
 Decir que la probabilidad de que sea agua es 0.7 significa que ..-
 
@@ -137,7 +139,9 @@ Señale si las siguientes afirmaciones son verdaderas o falsas, en el caso que s
 - [ ] La principal ventaja de HPDI frente a un intervalo de credibilidad es que si la posterior no distribuye de forma normal, el HPDI será capaz de detectar los puntos de interés, mientras que un intervalo de credibilidad lo ignoraría al asumir simetría.
 
 > Depende: Cuando se tiene, por ejemplo, una posterior que distribuye de forma normal, calcular el MAP entrega información relevante ya que el MAP es la media de dicha distribución normal. Sin embargo, por ejemplo, para posteriores con distribuciones asimétricas o uniformes, los points estimates no entregan información relevante sobre dichas distribución.
+>
 > Verdadero
+>
 > Verdadero: Aunque es un poco más general la ventaja de HDPI ya que si la posterior no distribuye de forma simétrica (una distribución normal es un un caso de una distribución simétrica pero existen otras distribuciones simétricas como la distribución binomial, distribución t-student, distribución uniforme, etcétera), entonces HDPI es mejor que los intervalos de credibilidad.
 
 
@@ -156,8 +160,66 @@ Suponga que usted esta intentando determinar la especie de un panda que que tien
 
 Se administra el test y se obtiene un resultado positivo a la especie $1$. Sin utilizar la información en $D$ calcule la probabilidad posterior de que su panda sea de la especie $1$. Repita sus cálculos utilizando la información recopilada en $D$. ¿En que varían sus resultados?
 
-
-> Respuesta Aqui
+>Se quiere calcula la siguiente probabilidad:
+\[ P(\theta=1 | D) = \frac{P(D | \theta = 1) \cdot P(\theta=1)}{P(D)} \]
+donde $D = \{\text{dos bebes}\}$
+>
+> Por enunciado, se tiene las siguientre probabilidades:
+\[P(D | \theta = 1) = 0.1 \]
+\[ P(\theta=1) = 0.5  \]
+\[ P(D) = \sum_{\theta}  P(D | \theta) \cdot P(\theta) = 0.1\cdot 0.5 + 0.2 \cdot 0.5 \]
+>
+Reemplazando en la fórmula original se tiene:
+\[ P(\theta=1 | D) = \frac{0.1 \cdot 0.5} { 0.1 \cdot 0.5 + 0.2 \cdot 0.5} = \frac{1}{3} \]
+>
+> Es decir, la probabilidad de que el panda pertenezca a la especie 1 dado que el panda tuvo 2 hijos es $\frac{1}{3}$
+>
+>
+> Ahora, se quiere calcula la misma probabilidad:
+\[P(\theta=1 | D) = \frac{P(D | \theta = 1) \cdot P(\theta=1)}{P(D)}\]
+pero con $D = \{\text{dos bebes y luego un bebe}\}$
+>
+> Por enunciado y por multiplicación de eventos independiente, se tiene las siguientre probabilidades
+\[ P(D | \theta = 1) = 0.1 \cdot 0.9 \cdot 0.5 \]
+\[ P(\theta=1) = 0.5 \]
+\[ P(D) = \sum_{\theta}  P(D | \theta) \cdot P(\theta) = 0.1 \cdot 0.9 \cdot 0.5 + 0.2 \cdot 0.8 \cdot 0.5\]
+> 
+> Reemplazando en la fórmula original se tiene que:
+\[ P(\theta=1 | D) = \frac{0.1 \cdot 0.9 \cdot 0.5} { 0.1 \cdot 0.9 \cdot 0.5 + 0.2 \cdot 0.8 \cdot 0.5} = 0.36 \]
+>
+> Es decir, la probabilidad de que el panda pertenezca a la especie 1 dado que el panda tuvo 2 hijos y luego tuvo 1 hijo es $0.36$
+>
+> Nótese que, al introducir un nuevo dato (el panda tuvo un hijo), la probabilidad de identificar correctamente la especie del panda cambia, ya que el cálculo va a variar debido a que se va a actualizar la información que se tiene sobre el panda.
+>
+> Se quiere calcular la siguiente probabilidad:
+\[ P(\theta=1 | D) = \frac{P(D | \theta = 1) \cdot P(\theta=1)}{P(D)} \]
+donde $D = \{\text{el test identifico al panda como especie 1 }\}$
+>
+> Por enunciado, se tiene las siguientre probabilidades:
+\[P(D | \theta = 1) = 0.8\]
+\[ P(\theta=1) = 0.5  \]
+\[ P(D) = \sum_{\theta}  P(D | \theta) \cdot P(\theta) = 0.8\cdot 0.5 + (1-0.65) \cdot 0.5 \]
+>
+Reemplazando en la fórmula original se tiene:
+\[ P(\theta=1 | D) = \frac{0.8 \cdot 0.5} { 0.8 \cdot 0.5 + 0.35 \cdot 0.5} = 0.695 \]
+>
+> Es decir, la probabilidad de que el panda pertenezca a la especie 1 dado que el test identifico al panda como de la especie 1 es $0.695$
+>
+> Ahora, se quiere calcula la misma probabilidad:
+\[ P(\theta=1 | D) = \frac{P(D | \theta = 1) \cdot P(\theta=1)}{P(D)} \]
+pero con $D = \{\text{dos bebes, luego un bebe y el test identifico al panda como especie}\}$
+>
+> Por enunciado y por multiplicación de eventos independiente, se tiene las siguientre probabilidades
+\[ P(D | \theta = 1) = 0.1 \cdot 0.9 \cdot 0.85 \cdot 0.5 \]
+\[ P(\theta=1) = 0.5 \]
+\[ P(D) = \sum_{\theta}  P(D | \theta) \cdot P(\theta) = 0.1 \cdot 0.9 \cdot 0.85 \cdot 0.5 + 0.2 \cdot 0.8 \cdot 0.35 \cdot 0.5\]
+> 
+> Reemplazando en la fórmula original se tiene que:
+\[ P(\theta=1 | D) = \frac{0.1 \cdot 0.9 \cdot 0.85 \cdot 0.5} { 0.1 \cdot 0.9 \cdot 0.85 \cdot 0.5 + 0.2 \cdot 0.8 \cdot 0.35 \cdot 0.5} = 0.563\]
+>
+> Es decir, la probabilidad de que el panda pertenezca a la especie 1 dado que el panda tuvo 2 hijos, luego tuvo 1 hijo  y finalmente que el test identifico al panda como de la especie 1 es $0.563$
+>
+> Nótese que, al agregar datos, la probabilidad disminuye.
 
 
 ---
@@ -719,9 +781,9 @@ df <- data.frame(posterior_samples$grid_mu,posterior_samples$grid_sigma)
 dens(df)
 ```
 
-> 1 - Al visualizar el gráfico, puede decirse de los valores de la distribución que se encuentran concentrados en torno al 6 debido al color amarillo que se aprecia en la zona. El color va paulatinamente dispersándose hacia arriba, lo cual indica la desviación estándar de la media de las notas. Al realizar modificaciones se puede notar que se va desplazando la zona en torno a la cual se concentran aquellos valores para la media y la desviación estándar.
->
-> 2- Este proceso de obtener muestras a partir de la grid aproximation permite obtener la posterior, con el objetivo de poder encontrar las distribuciones de la media y de la desviación estándar de las notas.
+1 - Al visualizar el gráfico, se puede decir que los valores *mas posibles* (color amarillo) de $\mu$ se encuentran cercanos al valor $6$ lo cual tiene sentido con respecto al promedio de los datos de las notas. Del mismo modo, para $\sigma$ se puede realizar una afirmación similar: los valores *mas posibles* (color amarillo) de $\sigma$ se encuentran cercanos al valor $0.5$ lo cual tiene sentido con respecto a a desviación estándar de los datos de las notas. Asimismo, el efecto de las prior establecidas (tanto para $\mu$ como para $\sigma$) se evidencia en el gráfico. 
+
+2- Este proceso de obtener muestras a partir de la grid aproximation permite obtener la posterior, con el objetivo de poder encontrar las distribuciones de la media y de la desviación estándar de las notas.
 
 
 
