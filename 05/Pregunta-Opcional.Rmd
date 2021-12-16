@@ -1,0 +1,293 @@
+---
+title: "Tarea 5"
+output:
+  html_document:
+    df_print: paged
+---
+
+![](banner.png)
+
+<center> <h1>Tarea 5: Bayesian Inference Part II</h1> </center>
+<center><strong>CC6104: Statistical Thinking</strong></center>
+#### **Integrantes :** 
+
+- Alumno 1
+- Alumno 2
+
+#### **Cuerpo Docente:**
+
+- Profesor: Felipe Bravo M.
+- Auxiliar: Sebastian Bustos e Ignacio Meza D.
+            
+
+#### **Fecha límite de entrega:**
+
+### **Índice:**
+
+1. [Objetivo](#id1)
+2. [Instrucciones](#id2)
+3. [Referencias](#id3)
+2. [Primera Parte: Preguntas Teóricas](#id4)
+3. [Segunda Parte: Elaboración de Código](#id5)
+
+### **Objetivo**<a name="id1"></a>
+
+Bienvenid@s a la uuuuultima tarea del curso Statistical Thinking. Esta tarea tiene como objetivo evaluar los contenidos teóricos de la ultima parte del curso, los cuales se enfocan principalmente en aplicar inferencia bayesiana para generar regresiones lineales y estudiar métodos de obtención de la posterior mas poderosos, como es MCMC. Si aún no han visto las clases, se recomienda visitar los enlaces de las referencias.
+
+La tarea consta de una parte teórica que busca evaluar conceptos vistos en clases. Seguido por una parte práctica con el fin de introducirlos a la programación en R enfocada en el análisis estadístico de datos. 
+
+### **Instrucciones:**<a name="id2"></a>
+
+- La tarea se realiza en grupos de **máximo 2 personas**. Pero no existe problema si usted desea hacerla de forma individual.
+- La entrega es a través de u-cursos a más tardar el día estipulado en la misma plataforma. A las tareas atrasadas se les descontará un punto por día.
+- El formato de entrega es este mismo **Rmarkdown** y un **html** con la tarea desarrollada. Por favor compruebe que todas las celdas han sido ejecutadas en el archivo html.
+- Al momento de la revisión tu código será ejecutado. Por favor verifica que tu entrega no tenga errores de compilación.
+- No serán revisadas tareas desarrolladas en Python.
+- Está **PROHIBIDO** la copia o compartir las respuestas entre integrantes de diferentes grupos.
+- Pueden realizar consultas de la tarea a través de U-cursos y/o del canal de Discord del curso. 
+
+
+### **Referencias:**<a name="id3"></a>
+
+Slides de las clases:
+
+- [Bayesian Linear Regression](https://github.com/dccuchile/CC6104/blob/master/slides/3_3_ST-bayes_lin.pdf)
+- [Markov Chain Monte Carlo](https://github.com/dccuchile/CC6104/blob/master/slides/3_4_ST-MCMC.pdf)
+- [Model Evaluation and Information Criteria](https://github.com/dccuchile/CC6104/blob/master/slides/4_1_ST-eval.pdf)
+- [Directed Graphical Models](https://github.com/dccuchile/CC6104/blob/master/slides/4_2_ST-dag.pdf)
+
+
+Videos de las clases:
+
+- Bayesian Linear Regression: [video 1](https://youtu.be/DrwhRshBVjM), [video 2](https://youtu.be/lgNMDCzTV9k),  [video 3](https://youtu.be/ajMucPrZDpU), [video 4](https://youtu.be/YSGWWSUMPOk), [video 5](https://youtu.be/Ma9V8Nown9Q)
+- Markov Chain Monte Carlo: [video 1](https://youtu.be/gsofPiPBIeU), [video 2](https://youtu.be/EJZWaph61p4),  [video 3](https://youtu.be/jfidS22imJM), [video 4](https://youtu.be/kif9EG-sy2I), [video 5](https://youtu.be/iVgiowZvyZM), [video 6](https://youtu.be/r0BNqctisLg)
+- Model Evaluation and Information Criteria: [video 1](https://youtu.be/HCCzwltLVCc), [video 2](https://youtu.be/twpZHZMmKgM),  [video 3](https://youtu.be/ny4SlO3rcTo), [video 4](https://youtu.be/6U7laePWt9M), [video 5](https://youtu.be/vE2VaK9tLV8), [video 6](https://youtu.be/wmBugs36H-4)  
+- Directed Graphical Models: [video 1](https://youtu.be/2jnj-7xpK0E), [video 2](https://youtu.be/GZf8uB37noU),  [video 3](https://youtu.be/3EDdNLOrj_4), [video 4](https://youtu.be/cODS9GgepA4), [video 5](https://youtu.be/JA8H-LjAatE), [video 6](https://youtu.be/YXf0wnzvCFM)   
+
+Documentación:
+
+- [rethinking](https://github.com/rmcelreath/rethinking)
+- [tidyr](https://tidyr.tidyverse.org)
+- [purrr](https://purrr.tidyverse.org)
+- [dplyr](https://dplyr.tidyverse.org)
+- [ggplot2](https://ggplot2.tidyverse.org/)
+
+Para el desarrollo preste mucha atención en los enunciados, ya que se le solicitará la implementación de métodos sin uso de funciones predefinidas. Por otro lado, Las librerías permitidas para desarrollar de la tarea 4 son las siguientes:
+
+```{r, eval=FALSE}
+# Manipulación de estructuras
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+
+# Para realizar plots
+library(scatterplot3d)
+library(ggplot2)
+library(plotly)
+
+# Manipulación de varios plots en una imagen.
+library(gridExtra)
+
+# Análisis bayesiano
+library("rethinking")
+```
+
+Si no tiene instalada la librería “rethinking”, ejecute las siguientes líneas de código para instalar la librería:
+
+```{r, eval=FALSE}
+install.packages("rethinking")
+```
+
+En caso de tener problemas al momento de instalar la librería con el código anterior, utilice las siguiente chunk:
+
+```{r, eval=FALSE}
+install.packages(c("mvtnorm","loo","coda"), repos="https://cloud.r-project.org/",dependencies=TRUE)
+options(repos=c(getOption('repos'), rethinking='http://xcelab.net/R'))
+install.packages('rethinking',type='source')
+```
+
+
+### **PREGUNTA OPCIONAL:** Aplicación de MCMC: Metodos de decifrado
+
+La siguiente pregunta es **opcional** y tiene como objetivo mostrarles una aplicación del método MCMC en el mundo real. Esta parte solo entregará puntos a las personas que no hayan entregado alguna de las tareas anteriores, dándoles la oportunidad que la tarea 5 les pueda reemplazar la peor nota de tareas. Cabe señalar que en el caso que ustedes hayan entregado todas las tareas previas a la 5, no es necesario que realicen esta parte para que la tarea 5 les reemplace la peor nota, pero si gustan pueden hacer un entretenido ejercicio sobre MCMC.
+
+Una de las aplicaciones que tiene los métodos de MCMC es poder desencriptar textos. Para esto considere que tiene un cifrado por sustitución simple, es decir cada letra de su mensaje puede significar otra, por ejemplo la s remplaza a la a, la m remplaza a la r, etc. 
+
+
+Es posible resolver el problema de obtener el mensaje original por fuerza bruta, este metodo consiste en buscar todas las posibles permutaciones (biyecciones) que se pueden hacer en un alfabeto, si se utiliza un alfabeto de 27 letras entonces existe $27!$ combinaciones (aproximadamente $10^{28}$), por tanto si se desea aplicar fuerza bruta  es necesario iterar por $10^{28}$ combinaciones lo cual resulta computacionalmente y prácticamente infactible, pues aun cuando se pudieran calcular todas es necesario revisar cuales de dichos mensajes tienen sentido.
+
+
+Para esto una técnica usual es considerar la distribución de pares de letras que ocurren, se utilizan textos de referencia (idealmente grandes) y de esta manera es posible descartar o reafirmar tipos de estructuras que ocurren en dicho idioma (esta es la principal desventaja del método que es dependiente del lenguaje).
+
+
+Trabajaremos con textos en ingles por tanto tendremos un alfabeto de 26 letras y consideraremos que también están considerados los espacios, de esta manera tendremos 27 "letras", representaremos la información como una matriz donde cada entrada de la matriz representara la cantidad de apariciones que tiene ese par de letras en dicho orden. Por ejemplo:
+
+- [ ] La fila 1 y columna 2 representa la cantidad de veces que aparece la letra a y después la b
+- [ ] La fila 3 y columna 1 representa la cantidad de veces que aparece la letra c y después la a
+- [ ] La fila 2 y columna 1 representa la cantidad de veces que aparece la letra b y después la a
+- [ ] La fila 27 y columna 1 representa la cantidad de veces que aparece un espacio y después la a
+
+Notar que la fila 1 y columna 2 no tiene por que tener la misma cantidad de repeticiones que la columna 2 y fila 1, esta información se encuentra en el archivo "Matriz.txt"
+
+Por costos computacionales es recomendable trabajar con el logaritmo de los datos en vez de los datos, de esta manera todas las multiplicaciones se transforman en sumas. Para esto el siguiente código transforma la matriz de datos en logaritmo.
+
+
+```{r}
+M <- read.table("Matriz.txt",header=F)
+logM <- log(M + 1) # Es mas facil hacer calulos de productos como sumas
+```
+
+El mensaje que se busca desencriptar se encuentra en "Mensaje.txt", se recomienda leerlo como en el siguiente codigo
+
+```{r}
+mensaje <- readChar("Mensaje.txt", file.info("Mensaje.txt")$size)
+```
+
+Para el algoritmo consideraremos que $q(\theta^{(t)} \mid \theta^{(t-1)})$ es uniforme paa las letras y que nunca se pueden modificar los espacios. De esta manera se tiene el siguiente algoritmo de metrópolis:
+
+- [ ] Seleccionar un punto al azar $\theta^{0}$ tal que $p(\theta^{0})$ con $p(\theta^{0}) > 0$
+- [ ] Para $t = 1,2...,k$
+  - [ ] Seleccionar $\theta^{*}$ aleatorio uniforme.
+  - [ ] Calcular $r =\frac{p(\theta^{*})}{p(\theta^{t-1})}$
+  - [ ] Setear  $\theta^{(t)} = \theta^{*}$ con probabilidad $min(r,1)$ y en caso contrarior $\theta^{(t-1)}$
+
+- [ ] Devolver $\theta^{(0)},\theta^{(1)},...,\theta^{(k)}$.
+
+Todavía falta determinar cual es $p(\theta)$ y que es $\theta$. En primer lugar $\theta$ representa el valor que deseamos escoger, en nuestro caso la permutaciones de letras para decodificar el mensaje (pensar que una codificación de este tipo se puede pensar como una biyección, agarro el mensaje lo meto en la función y me devuelve la encriptación y si meto el mensaje encriptado me tiene que devolver el mensaje original).
+
+Para facilidad de la implementación se recomienda trabajar las letras como indices $a$ corresponde $1$ , $b$ a 2, ..., $z$ a 26 y espacio a 27. De esta manera la función  $\pi$ que trabajaremos corresponde a:
+
+$$
+\pi(\theta) = \frac{puntaje(\theta)}{\displaystyle{\sum_{f \text{ permutación}}} ~puntaje(f)}
+$$
+
+Dado el mensaje a decodificar si consideramos que tiene $N$ letras (considerando espacios) y cada una de estas son $c_{1},...,c_{N}$ entonces consideramos la siguiente función de puntaje
+
+$$
+puntaje(\theta) = \prod_{i=1}^{N-1} M_{\theta(c_{i}),\theta(c_{i+1})}
+$$
+Donde $M_{\theta(c_{i}),\theta(c_{i+1})}$ corresponde a la fila $\theta_{c_{i}}$ y columna $\theta(c_{i+1})$. Notar que aplicando logaritmo
+
+$$
+log(puntaje(\theta)) = \displaystyle{\sum_{i=1}^{N-1}} log(M_{\theta(c_{i}),\theta(c_{i+1})})
+$$
+De esta forma $r$ corresponde a:
+
+$$
+r = exp(log(puntaje(\theta^{*})) - log(puntaje(\theta^{(t-1)})))
+$$
+
+Por ultimo el proceso Seleccionar $\theta^{*}$ aleatorio uniforme, se entendera como el siguiente proceso: Se seleccionan dos letras que intercambiaran sus roles. En la etapa iterativa actua de la siguiente manera:
+
+- [ ] Se eligen dos letras a intercambiar.
+- [ ] Se seleccionan esas letras en $theta^{(t-1)}$ y se dan vuelta, es decir si mis letras son $i,j$ se tiene que
+
+$$
+\theta^{*}(i) = \theta^{(t-1)}(j) ~~ \text{ y } \theta^{*}(j) = \theta^{(t-1)}(i)
+$$
+
+
+- [ ] El resto de letras queda igual a $\theta^{(t-1)}$.
+
+- [ ] Interprete la función puntaje, para esto puede ser útil enfocarse en que significa $M_{i,j}$ en general y como se aplica eso en $M_{\theta(c_{i}),\theta(c_{i+1})}$ para una permutación $\theta$.
+
+- [ ] Justifique porque es infactible calcular $\pi(\theta)$ directamente ¿Esto es un inconveniente para el algoritmo de Metropolis Hasting? En caso de no serlo justifique porque y en caso de serlo explique, de ser posible, como solucionarlo.
+
+- [ ] Implemente el algoritmo de metropolis hasting, es recomendable que se apoye en las funciones auxiliares que se presentan. Indicación: Para codificar $\theta$ de una manera sencilla es recomendable que $\theta$ sea un vector tal que $\theta(i) = j$ signifique la letra en la posición $i$ del abecedario tiene que ser remplazada por la letra en la posición $j$ del abecedario, notar demas que si $\theta(i) = j$ entonces $\theta(j) = i$ pues el proceso tiene que ser reversible.
+
+- [ ] Considere como condición inical $\theta$ la permutación identidad (es decir la que a cada letra entrega la misma letra) considere un minimo de $2500$ iteraciones. Grafique como va variando la función de puntaje en función de las iteraciones. ¿Que puede decir sobre la convergencia del algoritmo?
+
+- [ ] Repita el análisis anterior para varias permutaciones iniciales ¿Se ve afectado el comportamiento? ¿Es relevante la condición inicial?
+
+- [ ] ¿Cual es la frase Original? Indicación: Para recuperar la frase tras $t$ iteraciones del algoritmo, basta tomar $\theta^{t}$ y aplicar la transformación a la palabra
+
+- [ ] Considere la siguiente frase en español y su codificación para alguna permutación desconocida
+
+
+  -[ ] Frase original:
+            gracias a la vida que me ha dado tanto me dio dos luceros que cuando los abro perfecto distingo lo negro del blanco
+  -[ ] Frase codificada:
+            hsbdjbt b mb wjeb rvf nf ib ebep uboup nf ejp ept mvdfspt rvf dvboep mpt bcsp qfsgfdup ejtujohp mp ofhsp efm cmbodp
+
+Aplique el algoritmo de decodificación ¿Recupero el resultado esperado? ¿A que se puede deber sus resultados?
+
+```{r}
+# Funciónes auxiliares para su desarollo
+
+
+# Esta función recibe el código y una permutación theta
+# Devuelve el codigo decodificado
+decodificar <- function(code, theta){
+  abecedario = "abcdefghijklmnopqrstuvwxyz"
+  
+  codigoDecodificado <- code
+  
+  N <- nchar(code)
+  
+  for (i in 1:N) {
+    ascii <- strtoi(charToRaw(substr(code,i,i)),16L)
+    if(ascii != 32){ 
+      indice <- ascii - 96
+      substr(codigoDecodificado,i,i) <- rawToChar(as.raw(theta[indice] + 96))
+    }
+  }
+
+  return(out)
+}
+
+
+# Esta función recibe el codigo, una permutación theta y el logartimo de la matrz M.
+# Permite calcular el logaritmo del puntaje
+logPuntaje <- function(theta, code, logM){
+  N <- nchar(code)
+  codigoDecodigicado <- decodificar(code, theta)
+  suma <- 0
+  for (i in 1:(N-1)) {
+    primerIndice <- 27
+    
+    ascii <- strtoi(charToRaw(substr(codigoDecodigicado,i,i)),16L)
+    if(ascii != 32){ 
+      primerIndice <- ascii - 96
+    }
+    
+    segundoIndice <- 27
+    ascii <- strtoi(charToRaw(substr(codigoDecodigicado,i+1,i+1)),16L)
+    if(ascii != 32){ 
+      segundoIndice <- ascii - 96
+    }    
+    
+    suma <- suma +logM[primerIndice, segundoIndice]
+    
+  }
+  return(suma)
+}
+
+```
+
+
+```{r,eval}
+metropolisHasting <- function(){} # Implemente el algoritmo de metropolis Hasting
+```
+
+**Respuesta:**
+
+> Respuesta Aquí
+
+
+&nbsp;
+<hr />
+<p style="text-align: center;">A work by <a href="https://github.com/dccuchile/CC6104">CC6104</a></p>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="https://github.com/dccuchile/CC6104"><i class="fab fa-github" style='font-size:30px'></i></a>
+</p>
+
+<p style="text-align: center;">
+    <a href="https://discord.gg/XCbQvGs3Uf"><i class="fab fa-discord" style='font-size:30px'></i></a>
+</p>
+
+&nbsp;
