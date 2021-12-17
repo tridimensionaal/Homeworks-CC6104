@@ -11,8 +11,8 @@ output:
 <center><strong>CC6104: Statistical Thinking</strong></center>
 #### **Integrantes :** 
 
-- Alumno 1
-- Alumno 2
+- Camila Bergasa
+- Matías Seda
 
 #### **Cuerpo Docente:**
 
@@ -79,8 +79,8 @@ A continuación, se presentaran diferentes preguntas que abordan las temáticas 
 
 Señale algunos beneficios (no mas de dos) que nos brinda realizar una regresión lineal bayesiana sobre una regresión ajustada por mínimos cuadrados.
 
-> Respuesta Aquí
-
+> En primer lugar, realizar un tratamiento bayesiano de la regresión lineal nos permite incorporar inofrmación a priori, lo que la hace más flexible que la regresión lineal ajustada por mínimos cuadrados. Esto genera que los modelos sean más robustos y menos proclives a hacer overfitting.
+> En segundo lugar, permite realizar una interpretación de la incertidumdre del modelo de una forma mucho más "rica", en el sentido de que en vez de tener los intervalos de confianza de los coeficientes obtenidos a partir de la sampling distribution, se puede tener una posterior.
 
 #### **Pregunta 2:**
 
@@ -104,7 +104,22 @@ En base al modelo presentado, responda las siguientes preguntas:
 
 **Respuesta:**
 
-> Respuesta Aquí
+> 1 - Descripción del modelo:
+>
+> $y_i \sim Normal(\mu, \sigma)$ corresponde a la Likelihood.
+>
+> $\mu$ se refiere a la media y en el caso bayesiano no corresponde a un parámetro del modelo, si no que $\mu$ esta determinado de forma determinista por $\mu = \beta_0 + \beta_1 \cdot x$. Entonces $\mu$ se determina una vez que se estiman los parámetros $\beta_0$ y $\beta_1$ del modelo. Se aprecia que cada $\mu$ sigue una relación lineal.
+>
+>$\beta_0$ corresponde a un parámetro del modelo que posee un distribución normal con media 10 y desviación estándar 2. $\beta_0$ es el Intercepto del modelo lineal.
+>
+> $\beta_1$ corresponde a un parámetro del modelo que posee una distribución normal con media 0 y desviación estándar 1. $\beta_1$ es la pendiente del modelo lineal.
+> $\sigma$ corresponde a la desviación estándar de $y_i$ y distribuye uniforme(0,50), se puede notar que este sigma es fijo para todas las observaciones lo cual es equivalente al supuesto de homocedasticidad de la regresión lineal frecuentista.
+>
+> 2- Parámetros que conforman la regresión lineal: $\beta_0$, $\beta_1$, $\sigma$
+>
+> 3 - El objetivo que cumple en el modelo lineal tener una distribución $Normal(0,1)$ en el parámetro $\beta_1$. En este caso se utiliza un prior regulzarizador, bien concentrado, Esta regularización se utiliza para prevenir overfitting proveniente de la data asignándole valores extremos a $\beta_1$. 
+>
+> 4 - Cuando se asigna una desviación estándar baja, se le está pidiendo al modelo que nunca asigne pesos demasiado grandes a los betas, previniendo overfitting. Si hay un outlier por ejemplo, el modelo puede ignorar aquellos casos extremos.$\sigma$ corresponde a la desviación estándar. La propiedad de las regresiones lineales que nos entrega $sigma$ equivale a la propiedad de homocedasticidad del modelo de regresión lineal estándar.
 
 #### **Pregunta 3:**
 
@@ -112,46 +127,114 @@ Explique de forma resumida como funciona el algoritmo de Laplace approximation u
 
 **Respuesta:**
 
-> Respuesta Aquí
+> El algoritmo de Laplace approximation es una técnica que permite aproximar la posterior con una gaussiana. La idea de ocupar laplace approximation es primero encontrar los valores de máximo a posteriori (encontrar los valores que maximizan el posterior). Esto se puede hacer con el posterior no estandarizado usando algún algoritmo de optimización estilo hill climbing, o sea algoritmos que van *recorriendo* la función hasta encontrar el óptimo. Luego, se ajusta una distribución gaussiana multivariada, centrada en los valores encontrados. Cuando se usa la Laplace approximation se asume que la posterior conjunta sigue una distribución gaussiana multivariada.
 
 #### **Pregunta 4:**
 Determine si las siguientes afirmaciones son verdaderas o falsas. Justifique las falsas.
 
-- [ ] El algoritmo de metropolis hasting solo funciona si la probabilidad de saltar de B a A es la misma que de A a B.
-- [ ] El algoritmo de Gibbs funciona en cualquier caso.
-- [ ] El algoritmo de metropolis hasting y de Gibbs son el mismo algoritmo, pero este ultimo es una variante del primero.
+- [F] El algoritmo de metropolis hasting solo funciona si la probabilidad de saltar de B a A es la misma que de A a B: Se sugiere partir con una misma probabilidad pero luego pueden tener probabilidades diferentes. La probabilidad de saltar de B a A siempre es la misma y se ocupa para estimar otras cosas, en metropolis normal debe ser simétrica, pero en metrópolis hasting no es necesario que esta probabilidad sea simétrica.
 
-> Respuesta Aquí
+- [F] El algoritmo de Gibbs funciona en cualquier caso: Para una gran cantidad de parámetros (del orden de cien a miles de parámetros) el algoritmo de Gibss no funciona correctamente.
+
+- [V] El algoritmo de metropolis hasting y de Gibbs son el mismo algoritmo, pero este ultimo es una variante del primero.
+
 
 #### **Pregunta 5:**
 
 El algoritmo de Gibbs es mas eficiente que el de metropolis hasting. ¿Como se logra este efecto? ¿Existe alguna limitante de esta estrategia?
 
-> Respuesta Aquí
+> El algoritmo de Gibbs si es mas eficiente que el de metropolis hasting, debido a que utiliza propuestas "más inteligentes". Este efecto se logra con propuestas que se adaptativas en las que la distribución de los valores de los parámetros que se proponen se ajustan de mejor manera, haciéndolos depender de los valores de los parámetros en el momento. Estas propuestas adaptativas son calculadas por el muestreo de gibbs, y dependen del uso de combinaciones conjugadas entre priors y probabilidades. El algotirmo de Gibbs es altamente aleatorio, pero reduce esta aleatoriedad para ganar eficiencia y explotar el conocimiento de la distribución objetivo. Existen limitantes de esta estrategia, entre ellas se puede mencionar que en algunas ocasiones no vamos a querer utilizar priors conjugados y que es un algoritmo que puede volverse ineficiente al tener demasiados (cientos o miles) de parámetros.
 
 
 #### **Pregunta 6:**
 
 De una ventaja y una desventaja del algoritmo HMC.
 
-> Respuesta Aquí
+> Una ventaja del algoritmo de Hamiltonian Monte Carlo es que funciona bien para modelos que posean muchos parámetros (orden de cientos o miles).
+> Una desventaja es que, en comparación los algoritmos Metropolos y Gibbs, el algoritmo HMC es computacionalmente más costoso.
 
 #### **Pregunta 7:**
 
 Nombre y explique dos propiedades que son deseables en una cadena de Markov.
 
-> Respuesta Aquí
+> Una cadena de markov corresponde a una familia de métodos para hacer muestras de un posterior, sin necesidad de asumir su forma. Una propiedad deseable en una cadena de markov es que se pueda acceder a una función que sea proporcional a la posterior, para poder producir muestras de la posterior. Evaluando el producto de la likelihood y el prior, sin normalizar por la evidencia, MCMC nos permite generar valores random que son representaticos de la distribución de la posterior. Otra propiedad deseable es que el estado actual de la cadena depende solamente de el estado anterior (y no de todos los estados anteriores).
 
 #### **Pregunta 8:**
 Explique cómo cross-validation, criterios de información y regularización ayudan a mitigar o medir los problemas de underfitting y overfitting.
 
-> Respuesta Aquí
+> Cross-validation permite medir como se ajustan los datos al modelo de manera *práctica*. En particular, dado un dataset y un modelo a entrenar, cross-validation particiona el dataset y entrena el modelo con parte del dataset original y luego *evalua* el modelo entrenado con la otra parte del dataset. Lo anterior permite generar un mecanismo para medir que tan buena es la capacidad de *generalización* del modelo dado datos reales (dataset de evaluación) y, así,  medir los problemas de underfitting y overfitting.
+>
+> Criterios de información es una técnica que permite medir los problemas de underfitting y overfitting mediante la creación de métricas (estimadores teóricos) de la out-of-sample deviance. Un ejemplo de métrica es el criterio de información **Akali information criteria** que es una estimación muy simple de la out-of-sample deviance. En particular, se define la AIC de la siguiente forma:
+\[ AIC  = D_{train} + 2 p\]
+> Donde $p$ es el número de parámetros del modelo y $D_{train}$ es a in-sample deviance.
+>
+> Regularización es un técnica que permite mitigar los problemas de overfiting. En particular, la regularización le otorgar menor *peso* a parámetros del modelo. Por ejemplo, en una regresión lineal bayesiana con $\mu = \beta_0 + \beta_1 \cdot x$, definir $\beta_1 \sim Normal(0,1)$ es un tipo de regularización ya que con dicha distribución el parámetro $\beta_1$ no se *sobre-representa* en el modelo y, por tanto, evita el overfitting.
+>
 
 #### **Pregunta 9:**
 
 Diseñe una DAG para un problema causal inventado por usted de al menos 5 nodos (puede basarse en el ejemplo de Eugene Charniak) usando **Dagitty**  y considere que la DAG tenga al menos: una chain, un fork y un collider. Muestre con dagitty todas las independencias condicionales de su DAG. Explique las independencias usando las reglas de d-separación.
 
-> Respuesta Aquí
+```{r}
+library(dagitty)
+over <- dagitty("dag {
+                ser_otaku -> hacer_cosplay;
+                ser_otaku -> ver_series;
+                ver_series <- tener_acceso_a_internet;
+                asistir_a_la_comic_con <- hacer_cosplay
+                }")
+coordinates(over) <- list(
+  x=c("ser_otaku"=2, 
+      "hacer_cosplay"=1, 
+      "ver_series"=3, 
+      "tener_acceso_a_internet"=4,
+      "asistir_a_la_comic_con" = 0
+      ),
+  y=c("ser_otaku"=0, 
+      "hacer_cosplay"=1, 
+      "ver_series"=1, 
+      "tener_acceso_a_internet"=0,
+      "asistir_a_la_comic_con" = 3
+      ))
+plot(over)
+```
+
+Respecot a las independencias condicionales, se tiene lo siguiente:
+```{r}
+impliedConditionalIndependencies(over)
+```
+
+Más en detalle, el bloque de código anterior muestra las siguiente independecias condicionales: 
+1 - Asistir a la comic con y ser otaku son condicionalmente independientes dado hacer cosplay.
+2 - Asistir a la comic con y ver series son condicionalmente independientes dado ser otaku.
+3 - Asistir a la comic con y ver series son condicionalmente independientes dado hacer cosplay.
+4 - Hacer cosplay y ver series son condicionalmente independientes dado ser otaku.
+
+1 - Por la regla 1, asistir a la comic y ser otaku están d-conectados pero d-separados dado hacer cosplay. 
+```{r}
+dconnected(over, "asistir_a_la_comic_con", "ser_otaku")
+dseparated(over, "asistir_a_la_comic_con", "ser_otaku", c("hacer_cosplay"))
+```
+
+
+2 - Por la regla 2, asistir a la comic y ver series están d-conectados pero d-separados dado give hacer cosplay. 
+```{r}
+dconnected(over, "asistir_a_la_comic_con", "ver_series")
+dseparated(over, "asistir_a_la_comic_con", "ver_series", c("ser_otaku"))
+```
+
+
+3 - Por la regla 1, asitir a la comic con y ver series están d-conectados pero d-separados dado hacer cosplay. 
+```{r}
+dconnected(over, "asistir_a_la_comic_con", "ver_series")
+dseparated(over, "asistir_a_la_comic_con", "ver_series", c("hacer_cosplay"))
+```
+
+4 - Por la regla 1, hacer cosplay y ver series están d-conectados pero d-separados dado ser otaku. 
+```{r}
+dconnected(over, "hacer_cosplay", "ver_series")
+dseparated(over, "hacer_cosplay", "ver_series", c("ser_otaku"))
+```
 
 ---
 
